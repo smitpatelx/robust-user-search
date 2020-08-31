@@ -2,7 +2,7 @@
 /*
 Plugin Name: Robust User Search
 Description: Search users easily with this supercharged plugin.
-Plugin URI:  https://smitpatelx.com
+Plugin URI:  https://smitpatelx.com/robust-user-search
 Author:      Smit Patel
 Author URI:  https://smitpatelx.com
 Version:     1.0
