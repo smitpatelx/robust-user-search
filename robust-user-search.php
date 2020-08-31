@@ -93,26 +93,36 @@ function rus_return_data(WP_REST_Request $request){
     $users = get_users( $args );
     $i=0;
     // return $users;
+
+    //Helper Function
+    function filter_null($val){
+        if($val===NULL) {
+            return "";
+        } else {
+            return $val;
+        }
+    }
+
     foreach ( $users as $user )
     {
         // print_r[$user];
-        $DBRecord[$i]['roles']                  = $user->roles;   
-        $DBRecord[$i]['username']               = $user->user_login;   
-        $DBRecord[$i]['id']                     = $user->ID;  
-        $DBRecord[$i]['first_name']             = $user->first_name;
-        $DBRecord[$i]['last_name']              = $user->last_name;
-        $DBRecord[$i]['user_registered']        = $user->user_registered;
-        $DBRecord[$i]['email']                  = $user->user_email;
+        $DBRecord[$i]['roles']                  = filter_null($user->roles);
+        $DBRecord[$i]['username']               = filter_null($user->user_login);
+        $DBRecord[$i]['id']                     = filter_null($user->ID);
+        $DBRecord[$i]['first_name']             = filter_null($user->first_name);
+        $DBRecord[$i]['last_name']              = filter_null($user->last_name);
+        $DBRecord[$i]['user_registered']        = filter_null($user->user_registered);
+        $DBRecord[$i]['email']                  = filter_null($user->user_email);
 
         $UserData = get_user_meta( $user->ID );  
-        $DBRecord[$i]['billing_company']        = $UserData['billing_company'][0];    
-        $DBRecord[$i]['billing_address_1']      = $UserData['billing_address_1'][0];
-        $DBRecord[$i]['billing_city']           = $UserData['billing_city'][0];
-        $DBRecord[$i]['billing_state']          = $UserData['billing_state'][0];
-        $DBRecord[$i]['billing_postcode']       = $UserData['billing_postcode'][0];
-        $DBRecord[$i]['billing_country']        = $UserData['billing_country'][0];
-        $DBRecord[$i]['billing_phone']          = $UserData['billing_phone'][0];
-        $i++;
+        $DBRecord[$i]['billing_company']        = filter_null($UserData['billing_company'][0]);
+        $DBRecord[$i]['billing_address_1']      = filter_null($UserData['billing_address_1'][0]);
+        $DBRecord[$i]['billing_city']           = filter_null($UserData['billing_city'][0]);
+        $DBRecord[$i]['billing_state']          = filter_null($UserData['billing_state'][0]);
+        $DBRecord[$i]['billing_postcode']       = filter_null($UserData['billing_postcode'][0]);
+        $DBRecord[$i]['billing_country']        = filter_null($UserData['billing_country'][0]);
+        $DBRecord[$i]['billing_phone']          = filter_null($UserData['billing_phone'][0]);
+        $i++; 
     }
     return new WP_REST_Response($DBRecord, 200);
 }

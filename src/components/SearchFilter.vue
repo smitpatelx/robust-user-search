@@ -12,24 +12,25 @@
             </select>
         </div>
         <div class="w-full mt-4 flex flex-wrap flex-row bg-white rounded shadow-xl">
-            <div class="text-base w-full text py-3 flex items-center justify-center text-blue-800 font-medium border-b">
-                <span class="pl-4 pr-2 py-1 text-left border-r border-gray-400 flex-1 overflow-x-hidden">Username</span>
-                <span class="pl-4 pr-2 py-1 text-left border-r border-gray-400 w-48">Name</span>
-                <span class="pl-4 pr-2 py-1 text-left border-r border-gray-400 flex-1">Email</span>
-                <span class="pl-4 pr-2 py-1 text-left border-r border-gray-400 w-40">Company</span>
-                <span class="pl-4 pr-2 py-1 text-left border-r border-gray-400 flex-1">Role</span>
+            <div class="text-base w-full text py-3 grid grid-cols-5 items-center justify-center text-blue-800 font-medium border-b">
+                <span class="pl-4 pr-2 py-1 text-left border-r border-gray-400 overflow-x-hidden">Username</span>
+                <span class="pl-4 pr-2 py-1 text-left border-r border-gray-400">Name</span>
+                <span class="pl-4 pr-2 py-1 text-left border-r border-gray-400">Email</span>
+                <span class="pl-4 pr-2 py-1 text-left border-r border-gray-400">Company</span>
+                <span class="pl-4 pr-2 py-1 text-left border-r border-gray-400">Role</span>
             </div>
             <div class="w-full items-start overflow-y-scroll custom_scroll" style="height: 32rem;">
-                <a :href="'/wp-admin/user-edit.php?user_id='+user.id+'&wp_http_referer=%2Fwp-admin%2Fusers.php'" target="_blank" v-for="(user,i) in search_arr" :key="i" class="text-base w-full text py-2 flex items-center justify-center text-gray-700 text-sm bg-gray-100 hover:bg-gray-200 focus:outline-none focus:bg-gray-200">
-                    <span class="pl-4 pr-2 py-1 text-left border-r border-blue-200 flex-1 overflow-x-hidden underline" :class="user.username ? '' : 'text-red-500'">{{user.username}}</span>
-                    <span class="pl-4 pr-2 py-1 text-left border-r border-blue-200 capitalize w-48" 
+                <a :href="'/wp-admin/user-edit.php?user_id='+user.id+'&wp_http_referer=%2Fwp-admin%2Fusers.php'" target="_blank" v-for="(user,i) in search_arr" :key="i" 
+                    class="text-base w-full shadow-lg py-2 grid grid-cols-5 items-center justify-center text-gray-700 bg-gray-100 hover:bg-gray-200 focus:outline-none focus:bg-gray-200">
+                    <span class="truncate pl-4 pr-2 py-1 text-left border-r border-blue-200 overflow-x-hidden underline" :class="user.username ? '' : 'text-red-500'">{{user.username}}</span>
+                    <span class="truncate pl-4 pr-2 py-1 text-left border-r border-blue-200 capitalize " 
                         :class="user.first_name && user.last_name ? '' : 'text-red-500'"
                         :title="displayTitleForName(user.first_name, user.last_name)" >
                         {{user.first_name}} {{user.last_name}}
                     </span>
-                    <span class="pl-4 pr-2 py-1 text-left border-r border-blue-200 flex-1" :class="user.email ? '' : 'text-red-500'">{{user.email}}</span>
-                    <span class="pl-4 pr-2 py-1 text-left border-r border-blue-200 w-40  capitalize" :class="user.billing_company ? '' : 'text-red-500'">{{user.billing_company || 'Empty !!'}}</span>
-                    <span class="pl-4 pr-2 py-1 text-left border-r border-blue-200 flex-1 flex flex-wrap capitalize">
+                    <span class="truncate pl-4 pr-2 py-1 text-left border-r border-blue-200" :class="user.email ? '' : 'text-red-500'">{{user.email}}</span>
+                    <span class="truncate pl-4 pr-2 py-1 text-left border-r border-blue-200 capitalize" :class="user.billing_company ? '' : 'text-red-500'">{{user.billing_company || 'Empty !!'}}</span>
+                    <span class="truncate pl-4 pr-2 py-1 text-left border-r border-blue-200 flex flex-wrap capitalize">
                         <span v-for="(rl,x) in user.roles" :key='x' class="rounded-full bg-gray-600 text-white py-1 px-3 text-sm ml-2 my-1"> {{rl}}</span>
                     </span>
                 </a>
@@ -119,13 +120,13 @@ export default {
     },
     watch:{
         search_text(val){
-            let pattern=new RegExp(val.trim().toLowerCase(),"g")
+            let pattern=new RegExp(val.toString().trim().toLowerCase(),"g")
             let search_arr = this.users.filter(function(arr,index){
-                if(arr.username.toLowerCase().match(pattern) || 
-                    arr.first_name.toLowerCase().match(pattern) ||
-                    arr.last_name.toLowerCase().match(pattern) ||
-                    arr.billing_company.toLowerCase().match(pattern) ||
-                    arr.email.toLowerCase().match(pattern)
+                if(arr.username.toString().trim().toLowerCase().match(pattern) || 
+                    arr.first_name.toString().trim().toLowerCase().match(pattern) ||
+                    arr.last_name.toString().trim().toLowerCase().match(pattern) ||
+                    arr.billing_company.toString().trim().toLowerCase().match(pattern) ||
+                    arr.email.toString().trim().toLowerCase().match(pattern)
                     ){
                     return true;
                 }else{
@@ -168,5 +169,9 @@ export default {
             -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
             background-color: #31bbce;
         }
+    }
+
+    #wpbody-content{
+        padding-bottom:0px !important;
     }
 </style>
