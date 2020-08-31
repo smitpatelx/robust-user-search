@@ -13,7 +13,19 @@ License URI: https://www.gnu.org/licenses/gpl-2.0.txt
 // Adding plugin page to WooCommerce SubMenu
 function rus_register_menu_page() { 
     // add_menu_page( string $page_title, string $menu_title, string $capability, string $menu_slug, callable $function = '', string $icon_url = '', int $position = null ), 
-    add_menu_page( 'Robust user search', 'Robust Search', 'manage_options', 'rus', 'rus_display_callback', 'dashicons-superhero', 25); 
+    add_menu_page( 'Robust user search', 'Robust Search', 'manage_options', 'rus', 'rus_display_callback', 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAJmSURBVHgBzVXdcdpAEN6VRJ7sMXRAOsBvGU8SKxVAKjCpAKcCoAKcCgwVBFdghXgyfgsdWKkADH4C6TbfciKWFMRPZjLjnZHmfna/b29vd4/oPwvvo+TLpGzIa2F4CZMpkfQXFA3uuRL+M4GCxuQ0iZw6lPxNOkIU4D9wKR4GXJnuRfBW5r5DXIdhE9NyAgVjHhiioc4cuwcdTvZpKsRDAdkdHweFBO/l6QFg1ayH5sYl0897aE/oNgBxkT0hhyM+el1AMJdk2HUouio6dl5AVsUdNTFs63zEx5tDrwQpko3yBmBFe5vsHTpAEMLWK/J+HmKzN4G/8lw6cG9MB8heBDbGpVsh02WSRzpAvF0KtsgUnL7oHOl48k5mzfW+UBzecSUost95AmRHW4vpOx9dIS0DJvMNp6jaj3sOef42+60EyIi2LTiD8WPHo7gRkTsc8UkHppotA6RkZxtGJkTwKkQIqlrNWpGGInjr/nouF75AW5gim85B2nQoPl3bnsmklgzHhQQo9RuAtBwyPqZBPrbnMq+b1chcLij+cJ8qxBKVWqIIxBmCTIgMOcNkubWpoABeRtzbCXi4XtcsA3RDx0tadgsJNCxiG1q5RN51ngCBqgk53Xybjq1uGd7383t/XbJL0WcEK9QGhlj3ssrRqWZTeg2J0LPNTsK894VyJk81GE5sb8mSpOVcZtdWZzZJXXJGeBuJR3JLqzeBwwUt/8Q9qeyv8Lqmb0WEO/nBlfFBBM9ALki4SqtHRVuFK9qTLLGEAP9YBL6TIEXS0RpIr2sy4L4+7ftm7BTtP4j1g35aiPRS5Dc2UTIXCVE7mwAAAABJRU5ErkJggg==', 25); 
+    // add_action( 'admin_print_styles-' . $menu, 'cake_css' );
+}
+// Style for icon
+add_action('admin_head', 'rus_custom_favicon');
+function rus_custom_favicon() {
+  echo "
+    <style>
+    .toplevel_page_rus img{
+        margin-top:0px !important;
+        padding-top:5px !important;
+    }
+    </style>"; 
 }
 
 // Page callback function
@@ -29,21 +41,13 @@ function rus_display_callback() {
     ));
     
     ?>
-    <div class="flex flex-wrap pr-4 pl-2 py-4 antialiased" style="width:100% !important;">
-        <div class="flex flex-wrap w-full items-center justify-center">
-            <span style="margin-bottom:0.2rem;font-weight:500;font-size:1.2rem !important;" class="text-gray-500 py-2 rounded-full">
-                Robust User Search
-            </span>
-            <span class="dashicons dashicons-superhero fill-current text-gray-600 mb-1 ml-3"></span>
-        </div>
+    <div class="flex flex-wrap antialiased" style="width:100% !important;">
         <div class="w-full flex flex-wrap mt-2">
             <div id="vueApp" class="w-full">
                 <app-layout/>
             </div>
         </div>
-        <div class="flex flex-wrap items-center justify-center absolute top-0 right-0 p-3"> 
-            <a href="https://smitpatelx.com" target="_blank" class="text-base text-gray-500 underline">By: Smit Patel</a>
-        </div>
+        
     </div>
     <style>
         .error, .settings-error{
