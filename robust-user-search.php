@@ -14,7 +14,6 @@ License URI: https://www.gnu.org/licenses/gpl-2.0.txt
 function rus_register_menu_page() { 
     // add_menu_page( string $page_title, string $menu_title, string $capability, string $menu_slug, callable $function = '', string $icon_url = '', int $position = null ), 
     add_menu_page( 'Robust user search', 'Robust Search', 'manage_options', 'rus', 'rus_display_callback', 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAJmSURBVHgBzVXdcdpAEN6VRJ7sMXRAOsBvGU8SKxVAKjCpAKcCoAKcCgwVBFdghXgyfgsdWKkADH4C6TbfciKWFMRPZjLjnZHmfna/b29vd4/oPwvvo+TLpGzIa2F4CZMpkfQXFA3uuRL+M4GCxuQ0iZw6lPxNOkIU4D9wKR4GXJnuRfBW5r5DXIdhE9NyAgVjHhiioc4cuwcdTvZpKsRDAdkdHweFBO/l6QFg1ayH5sYl0897aE/oNgBxkT0hhyM+el1AMJdk2HUouio6dl5AVsUdNTFs63zEx5tDrwQpko3yBmBFe5vsHTpAEMLWK/J+HmKzN4G/8lw6cG9MB8heBDbGpVsh02WSRzpAvF0KtsgUnL7oHOl48k5mzfW+UBzecSUost95AmRHW4vpOx9dIS0DJvMNp6jaj3sOef42+60EyIi2LTiD8WPHo7gRkTsc8UkHppotA6RkZxtGJkTwKkQIqlrNWpGGInjr/nouF75AW5gim85B2nQoPl3bnsmklgzHhQQo9RuAtBwyPqZBPrbnMq+b1chcLij+cJ8qxBKVWqIIxBmCTIgMOcNkubWpoABeRtzbCXi4XtcsA3RDx0tadgsJNCxiG1q5RN51ngCBqgk53Xybjq1uGd7383t/XbJL0WcEK9QGhlj3ssrRqWZTeg2J0LPNTsK894VyJk81GE5sb8mSpOVcZtdWZzZJXXJGeBuJR3JLqzeBwwUt/8Q9qeyv8Lqmb0WEO/nBlfFBBM9ALki4SqtHRVuFK9qTLLGEAP9YBL6TIEXS0RpIr2sy4L4+7ftm7BTtP4j1g35aiPRS5Dc2UTIXCVE7mwAAAABJRU5ErkJggg==', 25); 
-    // add_action( 'admin_print_styles-' . $menu, 'cake_css' );
 }
 // Style for icon
 add_action('admin_head', 'rus_custom_favicon');
@@ -64,7 +63,11 @@ function rus_display_callback() {
 }
 add_action('admin_menu', 'rus_register_menu_page', 99);
 
-// Custom End-point
+/*
+ * Custom End-point Definiton
+ * Routes       : rus/v1/all
+ *                rus/v1/roles
+ */
 add_action( 'rest_api_init', function () {
     register_rest_route( 'rsu/v1', '/all', array(
         'methods' => 'GET',
@@ -83,6 +86,11 @@ add_action( 'rest_api_init', function () {
     ));
 } );
 
+/*
+ * Request url  : /wp-json/rus/v1/all
+ * Params       : role[string]
+ * Return       : data[]
+ */
 function rus_return_data(WP_REST_Request $request){
     extract($request->get_params());
     $DBRecord = array();
@@ -99,9 +107,12 @@ function rus_return_data(WP_REST_Request $request){
     }
     $users = get_users( $args );
     $i=0;
-    // return $users;
 
-    //Helper Function
+    /*
+     *  Helper Function : filter_null()
+     *  Accept          : string,null,int
+     *  Returns         : string
+     */
     function filter_null($val){
         if($val===NULL) {
             return "";
@@ -134,7 +145,11 @@ function rus_return_data(WP_REST_Request $request){
     return new WP_REST_Response($DBRecord, 200);
 }
 
-//List all roles
+/*
+ * Request url  : /wp-json/rus/v1/roles
+ * Params       : 
+ * Return       : data[]
+ */
 function rus_get_all_roles() {
     global $wp_roles;
 
