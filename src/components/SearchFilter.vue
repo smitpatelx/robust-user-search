@@ -20,14 +20,14 @@
                 <span class="pl-4 pr-2 py-1 text-left border-r border-gray-400 flex-1">Role</span>
             </div>
             <div class="w-full items-start overflow-y-scroll custom_scroll" style="height: 32rem;">
-                <a :href="'http://wp02.com/wp-admin/user-edit.php?user_id='+user.id+'&wp_http_referer=%2Fwp-admin%2Fusers.php'" target="_blank" v-for="(user,i) in search_arr" :key="i" class="text-base w-full text py-2 flex items-center justify-center text-gray-700 text-sm bg-gray-100 hover:bg-gray-200 focus:outline-none focus:bg-gray-200">
-                    <span class="pl-4 pr-2 py-1 text-left border-r border-blue-200 flex-1 underline" :class="user.username ? '' : 'text-red-500'">{{user.username}}</span>
+                <a :href="'/wp-admin/user-edit.php?user_id='+user.id+'&wp_http_referer=%2Fwp-admin%2Fusers.php'" target="_blank" v-for="(user,i) in search_arr" :key="i" class="text-base w-full text py-2 flex items-center justify-center text-gray-700 text-sm bg-gray-100 hover:bg-gray-200 focus:outline-none focus:bg-gray-200">
+                    <span class="pl-4 pr-2 py-1 text-left border-r border-blue-200 flex-1 underline overflow-x-hidden" :class="user.username ? '' : 'text-red-500'">{{user.username}}</span>
                     <span class="pl-4 pr-2 py-1 text-left border-r border-blue-200 capitalize w-48" 
                         :class="user.first_name && user.last_name ? '' : 'text-red-500'"
                         :title="displayTitleForName(user.first_name, user.last_name)" >
                         {{user.first_name}} {{user.last_name}}
                     </span>
-                    <span class="pl-4 pr-2 py-1 text-left border-r border-blue-200 flex-1" :class="user.email ? '' : 'text-red-500'">{{user.email}}</span>
+                    <span class="pl-4 pr-2 py-1 text-left border-r border-blue-200 flex-1 overflow-x-hidden" :class="user.email ? '' : 'text-red-500'">{{user.email}}</span>
                     <span class="pl-4 pr-2 py-1 text-left border-r border-blue-200 w-40  capitalize" :class="user.billing_company ? '' : 'text-red-500'">{{user.billing_company || 'Empty !!'}}</span>
                     <span class="pl-4 pr-2 py-1 text-left border-r border-blue-200 flex-1 flex flex-wrap capitalize">
                         <span v-for="(rl,x) in user.roles" :key='x' class="rounded-full bg-gray-600 text-white py-1 px-3 text-sm ml-2 my-1"> {{rl}}</span>
