@@ -46,11 +46,14 @@ function rus_display_callback() {
         </div>
     </div>
     <style>
-        .error{
+        .error, .settings-error{
             display:none !important;
         }
         #wpfooter{
             display: none !important;
+        }
+        body{
+            background: #fff !important;
         }
     </style>
     <?php
