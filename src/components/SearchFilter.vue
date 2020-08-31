@@ -13,7 +13,7 @@
         </div>
         <div class="w-full mt-4 flex flex-wrap flex-row bg-white rounded shadow-xl">
             <div class="text-base w-full text py-3 flex items-center justify-center text-blue-800 font-medium border-b">
-                <span class="pl-4 pr-2 py-1 text-left border-r border-gray-400 w-56">Username</span>
+                <span class="pl-4 pr-2 py-1 text-left border-r border-gray-400 flex-1">Username</span>
                 <span class="pl-4 pr-2 py-1 text-left border-r border-gray-400 w-48">Name</span>
                 <span class="pl-4 pr-2 py-1 text-left border-r border-gray-400 flex-1">Email</span>
                 <span class="pl-4 pr-2 py-1 text-left border-r border-gray-400 w-40">Company</span>
@@ -21,7 +21,7 @@
             </div>
             <div class="w-full items-start overflow-y-scroll custom_scroll" style="height: 32rem;">
                 <a :href="'http://wp02.com/wp-admin/user-edit.php?user_id='+user.id+'&wp_http_referer=%2Fwp-admin%2Fusers.php'" target="_blank" v-for="(user,i) in search_arr" :key="i" class="text-base w-full text py-2 flex items-center justify-center text-gray-700 text-sm bg-gray-100 hover:bg-gray-200 focus:outline-none focus:bg-gray-200">
-                    <span class="pl-4 pr-2 py-1 text-left border-r border-blue-200 w-56 underline" :class="user.username ? '' : 'text-red-500'">{{user.username}}</span>
+                    <span class="pl-4 pr-2 py-1 text-left border-r border-blue-200 flex-1 underline" :class="user.username ? '' : 'text-red-500'">{{user.username}}</span>
                     <span class="pl-4 pr-2 py-1 text-left border-r border-blue-200 capitalize w-48" 
                         :class="user.first_name && user.last_name ? '' : 'text-red-500'"
                         :title="displayTitleForName(user.first_name, user.last_name)" >
