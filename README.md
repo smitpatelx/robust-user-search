@@ -24,6 +24,10 @@
 + Errors for empty **First name, Last name and Company Name**
 + Resync button retains the search text and serve new data in real time
 
+<p align="center">
+  <img align="center" width="80%" src="https://github.com/smitpatelx/robust_user_search/blob/master/assets/robust_showcase_1.png" alt="Robust" />
+</p>
+
 ### Supported Wordpress versions
 
 | Wordpress Version | Supported |
