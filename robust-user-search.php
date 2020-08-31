@@ -29,11 +29,11 @@ function rus_custom_favicon() {
 
 // Page callback function
 function rus_display_callback() {
-    $dir = plugin_dir_path(__FILE__);
-    wp_enqueue_style( 'rus-css', '/wp-content/plugins/robust-user-search/dist/css/app.css' , array(), null, false);
-    wp_enqueue_script( 'rus-manifest', '/wp-content/plugins/robust-user-search/dist/js/manifest.js', array(), null, true);
-    wp_enqueue_script( 'rus-vendor', '/wp-content/plugins/robust-user-search/dist/js/vendor.js', array(), null, true);
-    wp_enqueue_script( 'rus-app', '/wp-content/plugins/robust-user-search/dist/js/app.js', array(), null, true);
+    $dir = explode("/", plugin_basename(__FILE__))[0];
+    wp_enqueue_style( 'rus-css', '/wp-content/plugins/'.$dir.'/dist/css/app.css' , array(), null, false);
+    wp_enqueue_script( 'rus-manifest', '/wp-content/plugins/'.$dir.'/dist/js/manifest.js', array(), null, true);
+    wp_enqueue_script( 'rus-vendor', '/wp-content/plugins/'.$dir.'/dist/js/vendor.js', array(), null, true);
+    wp_enqueue_script( 'rus-app', '/wp-content/plugins/'.$dir.'/dist/js/app.js', array(), null, true);
     wp_localize_script('rus-app', 'rusN', array(
         'rootapiurl' => esc_url_raw(rest_url()),
         'nonce' => wp_create_nonce('wp_rest')
