@@ -7,7 +7,8 @@ mix.js('src/app.js', 'dist/js')
       processCssUrls: false,
       postCss: [ tailwindcss('./tailwind.config.js') ],
     })
-    .extract(['vue']);
+    .extract(['vue'])
+    .disableNotifications();
 // Full API
 // mix.js(src, output);
 // mix.react(src, output); <-- Identical to mix.js(), but registers React Babel compilation.

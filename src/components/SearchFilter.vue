@@ -1,6 +1,6 @@
 <template>
     <div class="w-full flex flex-wrap">
-        <div class="w-full mt-2 flex">
+        <div class="w-full mt-2 flex" :class="editing_status ? 'filter-blur' : ''">
             <input @keydown.esc="search_text=''" class="text-base bg-blue-500 placeholder-text-gray-200" type="text" placeholder="Search User" v-model="search_text" title="Press Esc to clear !">
             <button @click="reSync" class="bg-primary hover:bg-gray-700 transition-colors duration-500 text-white pl-2 pr-3 ml-2 rounded flex flex-wrap justify-center items-center focus:outline-none focus:shadow-outline">
                 <svg class="w-4 h-4 fill-current inline-block text-white mr-2" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M13.4 1c.4.3.6.7.6 1.1L13 9H21a1 1 0 01.8 1.6l-10 12A1 1 0 0110 22L11 15H3a1 1 0 01-.8-1.6l10-12a1 1 0 011.2-.3zM5.1 13H12a1 1 0 011 1.1l-.6 4.6L19 11H12a1 1 0 01-1-1.1l.6-4.6L5 13z" clip-rule="evenodd"/></svg> 
@@ -11,32 +11,37 @@
                 <option v-for="(rol,i) in roles" :key="i" :value="slug(rol.name)">{{rol.name || capitalize}}</option>
             </select>
         </div>
-        <div class="w-full mt-4 flex flex-wrap flex-row">
-            <div class="text-base w-full rounded shadow text py-3 grid grid-cols-5 items-center justify-center bg-primary text-blue-100 font-medium border-b">
-                <span class="pl-4 pr-2 py-1 text-left border-r border-teal-400 overflow-x-hidden">Username</span>
-                <span class="pl-4 pr-2 py-1 text-left border-r border-teal-400">Name</span>
-                <span class="pl-4 pr-2 py-1 text-left border-r border-teal-400">Email</span>
-                <span class="pl-4 pr-2 py-1 text-left border-r border-teal-400">Company</span>
-                <span class="pl-4 pr-2 py-1 text-left">Role</span>
+        <div class="w-full mt-4 flex flex-wrap flex-row" :class="editing_status ? 'filter-blur' : ''">
+            <div class="text-base w-full rounded shadow text py-3 grid grid-cols-12 items-center justify-center bg-primary text-blue-100 font-medium">
+                <span class="pl-4 pr-2 py-1 text-left border-r border-teal-400 overflow-x-hidden col-span-2">Username</span>
+                <span class="pl-4 pr-2 py-1 text-left border-r border-teal-400 col-span-2">Name</span>
+                <span class="pl-4 pr-2 py-1 text-left border-r border-teal-400 col-span-3">Email</span>
+                <span class="pl-4 pr-2 py-1 text-left border-r border-teal-400 col-span-2">Company</span>
+                <span class="pl-4 pr-2 py-1 text-left col-span-3">Role</span>
             </div>
             <div class="w-full items-start overflow-y-scroll custom_scroll" style="height: 32rem;">
                 <div v-for="(user,i) in search_arr" :key="i" 
-                    class="text-base w-full my-2 rounded-lg shadow-lg py-2 grid grid-cols-5 items-center justify-center text-gray-700 bg-gray-100 border border-gray-300 hover:bg-teal-100 focus:outline-none focus:bg-teal-100">
-                    <span class="truncate pl-4 pr-2 py-1 text-left border-r border-gray-400 select-all overflow-x-hidden underline" :class="user.username ? '' : 'text-red-500'">{{user.username}}</span>
-                    <span class="truncate pl-4 pr-2 py-1 text-left border-r border-gray-400 capitalize " 
+                    class="text-base w-full my-2 rounded-lg transition-shadow duration-300 shadow hover:shadow-lg py-1 grid grid-cols-12 items-center justify-center text-gray-700 bg-gray-100 border border-gray-400 hover:border-teal-500 hover:bg-teal-100 focus:outline-none focus:bg-teal-100">
+                    <span class="truncate pl-4 pr-2 py-1 text-left border-r border-gray-400 select-all overflow-x-hidden col-span-2" :class="user.username ? '' : 'text-red-500'">{{user.username}}</span>
+                    <span class="truncate pl-4 pr-2 py-1 text-left border-r border-gray-400 capitalize col-span-2" 
                         :class="user.first_name && user.last_name ? '' : 'text-red-500'"
                         :title="displayTitleForName(user.first_name, user.last_name)" >
                         {{user.first_name}} {{user.last_name}}
                     </span>
-                    <span class="truncate pl-4 pr-2 py-1 text-left border-r border-gray-400 select-all" :class="user.email ? '' : 'text-red-500'">{{user.email}}</span>
-                    <span class="truncate pl-4 pr-2 py-1 text-left border-r border-gray-400 select-all capitalize" :class="user.billing_company ? '' : 'text-red-500'">{{user.billing_company || 'Empty !!'}}</span>
-                    <span class="truncate pl-4 pr-2 py-1 text-left flex flex-wrap flex-row justify-between items-center capitalize select-none">
-                        <div class="flex flex-wrap w-4/5">
+                    <span class="truncate pl-4 pr-2 py-1 text-left border-r border-gray-400 select-all col-span-3" :class="user.email ? '' : 'text-red-500'">{{user.email}}</span>
+                    <span class="truncate pl-4 pr-2 py-1 text-left border-r border-gray-400 select-all capitalize col-span-2" :class="user.billing_company ? '' : 'text-red-500'">{{user.billing_company || 'Empty !!'}}</span>
+                    <span class="truncate pl-4 pr-2 py-1 text-left grid grid-flow-col justify-between items-center capitalize select-none col-span-3">
+                        <div class="flex flex-wrap">
                             <span v-for="(rl,x) in user.roles" :key='x' class="rounded-full bg-gray-600 text-white py-1 px-3 text-sm ml-2 my-1"> {{rl}}</span>
                         </div>
-                        <a :href="'/wp-admin/user-edit.php?user_id='+user.id+'&wp_http_referer=%2Fwp-admin%2Fusers.php'"  target="_blank" class="w-1/5 text-teal-400 hover:text-teal-600 visited:text-indigo-500 focus:outline-none select-none">
-                            <svg class="w-5 h-5 fill-current inline-block mr-2 focus:outline-none select-none" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M5 7a1 1 0 00-1 1v11a1 1 0 001 1h11a1 1 0 001-1v-6a1 1 0 112 0v6a3 3 0 01-3 3H5a3 3 0 01-3-3V8a3 3 0 013-3h6a1 1 0 110 2H5zM14 3c0-.6.4-1 1-1h6c.6 0 1 .4 1 1v6a1 1 0 11-2 0V4h-5a1 1 0 01-1-1z" clip-rule="evenodd"/><path fill-rule="evenodd" d="M21.7 2.3c.4.4.4 1 0 1.4l-11 11a1 1 0 01-1.4-1.4l11-11a1 1 0 011.4 0z" clip-rule="evenodd"/></svg>
-                        </a>
+                        <div class="flex flex-wrap items-center justify-between">
+                            <a :href="'/wp-admin/user-edit.php?user_id='+user.id+'&wp_http_referer=%2Fwp-admin%2Fusers.php'"  target="_blank" class="text-teal-700 hover:text-teal-500 focus:outline-none select-none">
+                                <svg class="w-5 h-5 fill-current inline-block mr-2 focus:outline-none select-none" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M2.1 12a17 17 0 002.5 3.3c1.8 2 4.3 3.7 7.4 3.7 3.1 0 5.6-1.8 7.4-3.7a18.7 18.7 0 002.5-3.3 17 17 0 00-2.5-3.3C17.6 6.7 15.1 5 12 5 8.9 5 6.4 6.8 4.6 8.7A18.7 18.7 0 002.1 12zM23 12l.9-.4a10.6 10.6 0 00-.8-1.4L21 7.3c-2-2-5-4.3-8.9-4.3-3.9 0-6.9 2.2-8.9 4.3a20.7 20.7 0 00-3 4.2l.9.5-.9-.4a1 1 0 000 .8L1 12l-.9.4a8.3 8.3 0 00.2.4 18.5 18.5 0 002.8 3.9c2 2 5 4.3 8.9 4.3 3.9 0 6.9-2.2 8.9-4.3a20.7 20.7 0 003-4.2L23 12zm0 0l.9.4a1 1 0 000-.8l-.9.4z" clip-rule="evenodd"/><path fill-rule="evenodd" d="M12 10a2 2 0 100 4 2 2 0 000-4zm-4 2a4 4 0 118 0 4 4 0 01-8 0z" clip-rule="evenodd"/></svg>
+                            </a>
+                            <button @click="edit(user.id)"  target="_blank" class="text-teal-700 hover:text-teal-600 focus:outline-none select-none">
+                                <svg class="w-5 h-5 fill-current inline-block mr-2 focus:outline-none select-none" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M4 5a1 1 0 00-1 1v14a1 1 0 001 1h14a1 1 0 001-1v-5.3a1 1 0 112 0V20a3 3 0 01-3 3H4a3 3 0 01-3-3V6a3 3 0 013-3h5.3a1 1 0 010 2H4z" clip-rule="evenodd"/><path fill-rule="evenodd" d="M17.3 1.3a1 1 0 011.4 0l4 4c.4.4.4 1 0 1.4l-10 10a1 1 0 01-.7.3H8a1 1 0 01-1-1v-4c0-.3.1-.5.3-.7l10-10zM9 12.4V15h2.6l9-9L18 3.4l-9 9z" clip-rule="evenodd"/></svg>
+                            </button>
+                        </div>
                     </span>
                 </div>
                 <div v-if="search_arr.length==0" class="text-base w-full text py-3 flex items-center justify-center text-red-500 bg-red-100 font-medium focus:outline-none select-none">
@@ -44,10 +49,18 @@
                 </div>
             </div>
         </div>
+        <div :class="editing_status ? 'popup-container' : 'hidden'" class="w-full -ml-4 h-screen flex flex-wrap justify-center items-center absolute top-0 overflow-hidden">
+            <zoom-center-transition>
+                <EditSinglePost :edit_id="edit_id" v-if="editing_status" @close_this="close_editing"/>
+            </zoom-center-transition>
+        </div>
     </div>
 </template>
 <script>
 import axios from 'axios';
+import EditSinglePost from './EditSinglePost';
+import { ZoomCenterTransition } from 'vue2-transitions';
+
 export default {
     data(){
         return{
@@ -55,7 +68,9 @@ export default {
             users:[],
             currentRole: '',
             search_arr:[],
-            roles:[]
+            roles:[],
+            editing_status: false,
+            edit_id:''
         }
     },
     methods:{
@@ -156,7 +171,14 @@ export default {
             }).then(()=>{
                 this.searchUser(this.search_text)
             })
-        }
+        },
+        edit(val){
+            this.edit_id=val;
+            this.editing_status=true;
+        },
+        close_editing(val){
+            this.editing_status=val;
+        },
     },
     watch:{
         search_text(val){
@@ -171,10 +193,22 @@ export default {
         capitalize(val){
             return val.charAt(0).toUpperCase() + val.slice(1)
         }
+    },
+    components:{
+        EditSinglePost,
+        ZoomCenterTransition
     }
 }
 </script>
 <style lang="scss">
+    .popup-container{
+        background: rgba(0, 0, 0, 0.322);
+    }
+
+    .filter-blur{
+        filter: blur(2px);
+    }
+
     .focus\:outline-none{
         outline: 0 !important;
         outline: none !important;
@@ -189,7 +223,7 @@ export default {
     .custom_scroll{
         &::-webkit-scrollbar-track
         {
-            -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+            box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
             border-radius: 0px;
             background-color: rgb(42, 42, 42);
         }
@@ -204,7 +238,7 @@ export default {
         &::-webkit-scrollbar-thumb
         {
             border-radius: 10px;
-            -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+            box-shadow: inset 0 0 6px rgba(0,0,0,.3);
             background-color: #31bbce;
         }
     }

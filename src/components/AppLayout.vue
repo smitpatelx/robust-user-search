@@ -1,5 +1,5 @@
 <template>
-    <div class="w-full flex flex-wrap pr-4 pl-2 py-4">
+    <div class="w-full flex flex-wrap px-4 py-4">
         <div class="flex flex-wrap w-full items-center justify-center">
             <span class="text-primary py-2 rounded-full text-2xl font-medium flex flex-wrap items-center justify-center">
                 Robust User Search
@@ -25,3 +25,8 @@ export default {
     }
 }
 </script>
+<style lang="scss">
+    #wpcontent{
+        padding-left: 0px;
+    }
+</style>
