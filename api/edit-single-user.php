@@ -60,6 +60,7 @@ function is_valid_email($val){
 }
 
 function is_valid_name($val){
+    if (empty($val.trim())) { return true; }
     if(preg_match ("/^[a-zA-Z\s]+$/",$val.trim()) && strlen($val.trim()) <= 25) {
         return true;
     } else {
@@ -68,6 +69,7 @@ function is_valid_name($val){
 }
 
 function is_valid_phone($val){
+    if (empty($val.trim())) { return true; }
     if(preg_match("/^[0-9]{10}$/", $val.trim()) && strlen($val.trim()) == 10){
         return true;
     } else {
