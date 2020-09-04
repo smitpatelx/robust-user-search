@@ -46,8 +46,16 @@
                 </button>
             </div>
         </form>
-        <notifications :duration="3000" :speed="500" group="foo" position="bottom center" 
-        animation-type="velocity" 
+        <notifications :duration="3000" :speed="500" group="success" type="success" position="bottom center" 
+        animation-type="velocity" classes="text-green-500 vue-notification"
+        :animation="animation_v"
+        style="width: 300px; bottom: 0px; left: calc(50% - 75px);"/>
+        <notifications :duration="3000" :speed="500" group="error" type="error" position="bottom center" 
+        animation-type="velocity" classes="text-red-500 vue-notification"
+        :animation="animation_v"
+        style="width: 300px; bottom: 0px; left: calc(50% - 75px);"/>
+        <notifications :duration="3000" :speed="500" group="warn" type="warn" position="bottom center" 
+        animation-type="velocity" classes="text-yellow-500 vue-notification"
         :animation="animation_v"
         style="width: 300px; bottom: 0px; left: calc(50% - 75px);"/>
     </div>
@@ -108,40 +116,18 @@ export default {
             this.billing_company = data.billing_company;
 
             this.$notify({
-                group: 'foo',
-                type: 'success',
+                group: 'success',
                 title: 'Data Loaded',
                 text: 'User data downloaded',
             });
         },
         async save(){
-            axios.put(`/wp-json/wp/v2/users/${this.edit_id}`,{
+            axios.put(`/wp-json/rsu/v1/user/${this.edit_id}`,{
                 first_name: this.first_name,
                 last_name: this.last_name,
                 email: this.email,
-            },{
-                headers: {
-                    'X-WP-Nonce':rusN.nonce
-                }
-            })
-            .then(res=>{
-                this.woo_save()
-            })
-            .catch(err=>{
-                this.$notify({
-                    group: 'foo',
-                    type: 'error',
-                    title: 'Error',
-                    text: 'Wordpress edit error',
-                });
-            })
-        },
-        async woo_save(){
-            axios.put(`/wp-json/wc/v3/customers/${this.edit_id}`,{
-                billing:{
-                    company:this.billing_company,
-                    phone:this.phone
-                }
+                company:this.billing_company,
+                phone:this.phone
             },{
                 headers: {
                     'X-WP-Nonce':rusN.nonce
@@ -149,19 +135,18 @@ export default {
             })
             .then(res=>{
                 this.$notify({
-                    group: 'foo',
-                    type: 'success',
+                    group: 'success',
                     title: 'Saved',
                     text: 'User data updated',
                 });
             })
             .catch(err=>{
                 this.$notify({
-                    group: 'foo',
-                    type: 'error',
+                    group: 'error',
                     title: 'Error',
-                    text: 'Woocommerce edit error',
+                    text: err.response.data.message,
                 });
+                // console.log(err.response.data.message)
             })
         },
         async reset(){
@@ -172,8 +157,7 @@ export default {
             this.billing_company = this.reset_data.billing_company;
 
             this.$notify({
-                group: 'foo',
-                type: 'success',
+                group: 'success',
                 title: 'Data reset',
                 text: 'Dont forget to save',
             });
@@ -212,21 +196,9 @@ export default {
     }
 }
 
-.vue-notification-wrapper .vue-notification {
-    @apply bg-white text-teal-600 px-5 py-3 rounded-lg shadow-inner z-50 border-none;
+.vue-notification {
+    @apply bg-white px-5 py-3 rounded-lg shadow-inner z-50 border-none;
     opacity: 1 !important;
-
-    &.warn {
-        @apply text-yellow-500;
-    }
-
-    &.error {
-        @apply text-red-500;
-    }
-
-    &.success {
-        @apply text-green-500;
-    }
 }
 
 .notifications {
