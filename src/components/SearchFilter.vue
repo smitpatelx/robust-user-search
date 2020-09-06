@@ -49,7 +49,7 @@
                 </div>
             </div>
         </div>
-        <div :class="editing_status ? 'popup-container' : 'hidden'" class="w-full -ml-4 h-screen flex flex-wrap justify-center items-center absolute top-0 overflow-hidden">
+        <div :class="editing_status ? 'popup-container' : 'hidden'" class="w-full -ml-4 min-h-full flex flex-wrap justify-center items-center absolute top-0 overflow-hidden">
             <zoom-center-transition>
                 <EditSinglePost :edit_id="edit_id" v-if="editing_status" @close_this="close_editing"/>
             </zoom-center-transition>
@@ -178,6 +178,7 @@ export default {
         },
         close_editing(val){
             this.editing_status=val;
+            this.reSync();
         },
     },
     watch:{

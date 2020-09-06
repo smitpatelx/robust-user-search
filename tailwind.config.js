@@ -7,7 +7,7 @@
 module.exports = {
   purge: [
     './src/components/**/*.vue',
-    './robust-user-search.php',
+    './rus_includes/**/*.php',
   ],
   future: {
     removeDeprecatedGapUtilities: true,
