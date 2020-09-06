@@ -5,7 +5,7 @@ Description: Search users easily with this supercharged plugin.
 Plugin URI:  https://smitpatelx.com/robust-user-search
 Author:      Smit Patel
 Author URI:  https://smitpatelx.com
-Version:     1.0.2
+Version:     1.0.3
 License:     GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.txt
 */
