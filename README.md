@@ -5,7 +5,6 @@
 
 <p align="center"><b>Wordpress inbuilt search</b> <i>vs</i> <b>Robust User Search</b></p>
 
-<p align="center">
   
 | Wordpress inbuilt search | Robust User Search|
 |---|---|
@@ -13,19 +12,27 @@
 | Only search by email and username  | Search by **Username, First name, <br/>Last name, Email or Business Name** |
 | No error messages  | Descriptive errors messages   |
 | Refresh page for new data | Hit **ReSync Button** to<br/> get new data |
-
-</p>
+| Can't edit user data on search page | Inbuilt feature which allow to edit user data efficiently |
 
 ### Features
 
 + Search Users by: Username, First name, Last name, Email or Business Name
++ Edit user data on the go.
 + **Live** ajax search powred by AXIOS and VUE
 + **Resync Button** to resync data in real time
 + Errors for empty **First name, Last name and Company Name**
 + Resync button retains the search text and serve new data in real time
++ Role Based user management to increase security.
++ Security & Auth features added on every custom route.
 
 <p align="center">
-  <img align="center" width="80%" src="https://github.com/smitpatelx/robust_user_search/blob/master/assets/robust_showcase_1.png" alt="Robust" />
+  <img align="center" width="80%" src="https://github.com/smitpatelx/robust_user_search/blob/master/assets/main-page.png" alt="Robust" />
+</p>
+<p align="center">
+  <img align="center" width="80%" src="https://github.com/smitpatelx/robust_user_search/blob/master/assets/edit-component.png" alt="Robust" />
+</p>
+<p align="center">
+  <img align="center" width="80%" src="https://github.com/smitpatelx/robust_user_search/blob/master/assets/settings-page.png" alt="Robust" />
 </p>
 
 ### Supported Wordpress versions
