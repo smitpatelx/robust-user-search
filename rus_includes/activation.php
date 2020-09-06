@@ -32,3 +32,12 @@ function rus_reset_roles(){
         });
     }
 }
+
+/* 
+ * Name : rus_check_nonce
+ * Return : Boolean
+ * Params : WP_REST_Request $request
+ */
+function rus_check_nonce($request){
+    return wp_verify_nonce($request->get_header('X-WP-Nonce'), 'wp_rest');
+};

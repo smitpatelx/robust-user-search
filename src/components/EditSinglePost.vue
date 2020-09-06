@@ -38,7 +38,7 @@
             <div class="w-full flex flex-wrap justify-between items-center bottom-0 pt-6 pb-2 self-end">
                 <button type="submit" class="bg-teal-500 duration-300 transition-all flex felx-wrap justify-center items-center shadow-md py-2 px-4 focus:outline-none focus:shadow-outline select-none hover:bg-teal-400 text-white text-base font-medium rounded-md">
                     Save
-                    <svg class="w-4 h-4 ml-2 inline-block fill-current" fill="none" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M5 4a1 1 0 00-1 1v14a1 1 0 001 1h14a1 1 0 001-1V8.4L15.6 4H5zM2.9 2.9A3 3 0 015 2h11c.3 0 .5.1.7.3l5 5c.2.2.3.4.3.7v11a3 3 0 01-3 3H5a3 3 0 01-3-3V5c0-.8.3-1.6.9-2.1z" clip-rule="evenodd"/><path fill-rule="evenodd" d="M6 13c0-.6.4-1 1-1h10c.6 0 1 .4 1 1v8a1 1 0 11-2 0v-7H8v7a1 1 0 11-2 0v-8zM7 2c.6 0 1 .4 1 1v4h7a1 1 0 110 2H7a1 1 0 01-1-1V3c0-.6.4-1 1-1z" clip-rule="evenodd"/></svg>
+                    <svg class="w-4 h-4 ml-2 fill-current" :class="loading_data ? 'inline-block' : 'hidden'" viewBox="0 0 38 38"><defs><linearGradient id="a" x1="8%" x2="65.7%" y1="0%" y2="23.9%"><stop offset="0%" stop-color="#fff" stop-opacity="0"/><stop offset="63.1%" stop-color="#fff" stop-opacity=".6"/><stop offset="100%" stop-color="#fff"/></linearGradient></defs><g fill="none" fill-rule="evenodd" transform="translate(1 1)"><path stroke="url(#a)" stroke-width="2" d="M36 18C36 8 28 0 18 0"><animateTransform attributeName="transform" dur="0.9s" from="0 18 18" repeatCount="indefinite" to="360 18 18" type="rotate"/></path><circle cx="36" cy="18" r="1" fill="#fff"><animateTransform attributeName="transform" dur="0.9s" from="0 18 18" repeatCount="indefinite" to="360 18 18" type="rotate"/></circle></g></svg>
                 </button>
                 <button type="reset" class="bg-gray-600 duration-300 transition-all flex felx-wrap justify-center items-center shadow-md py-2 px-4 focus:outline-none focus:shadow-outline select-none hover:bg-gray-500 text-white text-base font-medium rounded-md">
                     Restore
@@ -87,7 +87,8 @@ export default {
                     height: 0,
                     opacity: 0
                 }
-            }
+            },
+            loading_data: false
         }
     },
     props:{
@@ -122,6 +123,7 @@ export default {
             });
         },
         async save(){
+            this.loading_data = true;
             axios.put(`/wp-json/rsu/v1/user/${this.edit_id}`,{
                 first_name: this.first_name,
                 last_name: this.last_name,
@@ -139,6 +141,7 @@ export default {
                     title: 'Saved',
                     text: 'User data updated',
                 });
+                this.loading_data = false;
             })
             .catch(err=>{
                 this.$notify({

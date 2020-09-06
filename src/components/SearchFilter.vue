@@ -20,32 +20,38 @@
                 <span class="pl-4 pr-2 py-1 text-left col-span-3">Role</span>
             </div>
             <div class="w-full items-start overflow-y-scroll custom_scroll" style="height: 32rem;">
-                <div v-for="(user,i) in search_arr" :key="i" 
-                    class="text-base w-full my-2 rounded-lg transition-shadow duration-300 shadow hover:shadow-lg py-1 grid grid-cols-12 items-center justify-center text-gray-700 bg-gray-100 border border-gray-400 hover:border-teal-500 hover:bg-teal-100 focus:outline-none focus:bg-teal-100">
-                    <span class="truncate pl-4 pr-2 py-1 text-left border-r border-gray-400 select-all overflow-x-hidden col-span-2" :class="user.username ? '' : 'text-red-500'">{{user.username}}</span>
-                    <span class="truncate pl-4 pr-2 py-1 text-left border-r border-gray-400 capitalize col-span-2" 
-                        :class="user.first_name && user.last_name ? '' : 'text-red-500'"
-                        :title="displayTitleForName(user.first_name, user.last_name)" >
-                        {{user.first_name}} {{user.last_name}}
-                    </span>
-                    <span class="truncate pl-4 pr-2 py-1 text-left border-r border-gray-400 select-all col-span-3" :class="user.email ? '' : 'text-red-500'">{{user.email}}</span>
-                    <span class="truncate pl-4 pr-2 py-1 text-left border-r border-gray-400 select-all capitalize col-span-2" :class="user.billing_company ? '' : 'text-red-500'">{{user.billing_company || 'Empty !!'}}</span>
-                    <span class="truncate pl-4 pr-2 py-1 text-left grid grid-flow-col justify-between items-center capitalize select-none col-span-3">
-                        <div class="flex flex-wrap">
-                            <span v-for="(rl,x) in user.roles" :key='x' class="rounded-full bg-gray-600 text-white py-1 px-3 text-sm ml-2 my-1"> {{rl}}</span>
-                        </div>
-                        <div class="flex flex-wrap items-center justify-between">
-                            <a :href="'/wp-admin/user-edit.php?user_id='+user.id+'&wp_http_referer=%2Fwp-admin%2Fusers.php'"  target="_blank" class="text-teal-700 hover:text-teal-500 focus:outline-none select-none">
-                                <svg class="w-5 h-5 fill-current inline-block mr-2 focus:outline-none select-none" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M2.1 12a17 17 0 002.5 3.3c1.8 2 4.3 3.7 7.4 3.7 3.1 0 5.6-1.8 7.4-3.7a18.7 18.7 0 002.5-3.3 17 17 0 00-2.5-3.3C17.6 6.7 15.1 5 12 5 8.9 5 6.4 6.8 4.6 8.7A18.7 18.7 0 002.1 12zM23 12l.9-.4a10.6 10.6 0 00-.8-1.4L21 7.3c-2-2-5-4.3-8.9-4.3-3.9 0-6.9 2.2-8.9 4.3a20.7 20.7 0 00-3 4.2l.9.5-.9-.4a1 1 0 000 .8L1 12l-.9.4a8.3 8.3 0 00.2.4 18.5 18.5 0 002.8 3.9c2 2 5 4.3 8.9 4.3 3.9 0 6.9-2.2 8.9-4.3a20.7 20.7 0 003-4.2L23 12zm0 0l.9.4a1 1 0 000-.8l-.9.4z" clip-rule="evenodd"/><path fill-rule="evenodd" d="M12 10a2 2 0 100 4 2 2 0 000-4zm-4 2a4 4 0 118 0 4 4 0 01-8 0z" clip-rule="evenodd"/></svg>
-                            </a>
-                            <button @click="edit(user.id)"  target="_blank" class="text-teal-700 hover:text-teal-600 focus:outline-none select-none">
-                                <svg class="w-5 h-5 fill-current inline-block mr-2 focus:outline-none select-none" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M4 5a1 1 0 00-1 1v14a1 1 0 001 1h14a1 1 0 001-1v-5.3a1 1 0 112 0V20a3 3 0 01-3 3H4a3 3 0 01-3-3V6a3 3 0 013-3h5.3a1 1 0 010 2H4z" clip-rule="evenodd"/><path fill-rule="evenodd" d="M17.3 1.3a1 1 0 011.4 0l4 4c.4.4.4 1 0 1.4l-10 10a1 1 0 01-.7.3H8a1 1 0 01-1-1v-4c0-.3.1-.5.3-.7l10-10zM9 12.4V15h2.6l9-9L18 3.4l-9 9z" clip-rule="evenodd"/></svg>
-                            </button>
-                        </div>
-                    </span>
+                <div v-if="!loading_view">
+                    <div v-for="(user,i) in search_arr" :key="i" 
+                        class="text-base w-full my-2 rounded-lg transition-shadow duration-300 shadow hover:shadow-lg py-1 grid grid-cols-12 items-center justify-center text-gray-700 bg-gray-100 border border-gray-400 hover:border-teal-500 hover:bg-teal-100 focus:outline-none focus:bg-teal-100">
+                        <span class="truncate pl-4 pr-2 py-1 text-left border-r border-gray-400 select-all overflow-x-hidden col-span-2" :class="user.username ? '' : 'text-red-500'">{{user.username}}</span>
+                        <span class="truncate pl-4 pr-2 py-1 text-left border-r border-gray-400 capitalize col-span-2" 
+                            :class="user.first_name && user.last_name ? '' : 'text-red-500'"
+                            :title="displayTitleForName(user.first_name, user.last_name)" >
+                            {{user.first_name}} {{user.last_name}}
+                        </span>
+                        <span class="truncate pl-4 pr-2 py-1 text-left border-r border-gray-400 select-all col-span-3" :class="user.email ? '' : 'text-red-500'">{{user.email}}</span>
+                        <span class="truncate pl-4 pr-2 py-1 text-left border-r border-gray-400 select-all capitalize col-span-2" :class="user.billing_company ? '' : 'text-red-500'">{{user.billing_company || 'Empty !!'}}</span>
+                        <span class="truncate pl-4 pr-2 py-1 text-left grid grid-flow-col justify-between items-center capitalize select-none col-span-3">
+                            <div class="flex flex-wrap">
+                                <span v-for="(rl,x) in user.roles" :key='x' class="rounded-full bg-gray-600 text-white py-1 px-3 text-sm ml-2 my-1"> {{rl}}</span>
+                            </div>
+                            <div class="flex flex-wrap items-center justify-between">
+                                <a :href="'/wp-admin/user-edit.php?user_id='+user.id+'&wp_http_referer=%2Fwp-admin%2Fusers.php'"  target="_blank" class="text-teal-700 hover:text-teal-500 focus:outline-none select-none">
+                                    <svg class="w-5 h-5 fill-current inline-block mr-2 focus:outline-none select-none" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M2.1 12a17 17 0 002.5 3.3c1.8 2 4.3 3.7 7.4 3.7 3.1 0 5.6-1.8 7.4-3.7a18.7 18.7 0 002.5-3.3 17 17 0 00-2.5-3.3C17.6 6.7 15.1 5 12 5 8.9 5 6.4 6.8 4.6 8.7A18.7 18.7 0 002.1 12zM23 12l.9-.4a10.6 10.6 0 00-.8-1.4L21 7.3c-2-2-5-4.3-8.9-4.3-3.9 0-6.9 2.2-8.9 4.3a20.7 20.7 0 00-3 4.2l.9.5-.9-.4a1 1 0 000 .8L1 12l-.9.4a8.3 8.3 0 00.2.4 18.5 18.5 0 002.8 3.9c2 2 5 4.3 8.9 4.3 3.9 0 6.9-2.2 8.9-4.3a20.7 20.7 0 003-4.2L23 12zm0 0l.9.4a1 1 0 000-.8l-.9.4z" clip-rule="evenodd"/><path fill-rule="evenodd" d="M12 10a2 2 0 100 4 2 2 0 000-4zm-4 2a4 4 0 118 0 4 4 0 01-8 0z" clip-rule="evenodd"/></svg>
+                                </a>
+                                <button @click="edit(user.id)"  target="_blank" class="text-teal-700 hover:text-teal-600 focus:outline-none select-none">
+                                    <svg class="w-5 h-5 fill-current inline-block mr-2 focus:outline-none select-none" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M4 5a1 1 0 00-1 1v14a1 1 0 001 1h14a1 1 0 001-1v-5.3a1 1 0 112 0V20a3 3 0 01-3 3H4a3 3 0 01-3-3V6a3 3 0 013-3h5.3a1 1 0 010 2H4z" clip-rule="evenodd"/><path fill-rule="evenodd" d="M17.3 1.3a1 1 0 011.4 0l4 4c.4.4.4 1 0 1.4l-10 10a1 1 0 01-.7.3H8a1 1 0 01-1-1v-4c0-.3.1-.5.3-.7l10-10zM9 12.4V15h2.6l9-9L18 3.4l-9 9z" clip-rule="evenodd"/></svg>
+                                </button>
+                            </div>
+                        </span>
+                    </div>
                 </div>
-                <div v-if="search_arr.length==0" class="text-base w-full text py-3 flex items-center justify-center text-red-500 bg-red-100 font-medium focus:outline-none select-none">
-                    <span class="pl-4 pr-2 py-1 text-center flex-1">No Data Found. Try different search.</span>
+                <div v-if="search_arr.length==0 && !this.loading_view" class="text-base w-full text py-4 flex items-center justify-center text-red-500 bg-red-100 font-medium focus:outline-none select-none">
+                    <span class="text-center">No Data Found. Try different search.</span>
+                </div>
+                <div v-if="this.loading_view" class="text-lg w-full text py-4 flex flex-wrap items-center justify-center text-green-500 bg-green-100 font-medium focus:outline-none select-none">
+                    <span class="text-center">Loading Data</span>
+                    <svg class="w-6 h-6 ml-2 fill-current inline-block" viewBox="0 0 38 38"><defs><linearGradient id="a" x1="8%" x2="65.7%" y1="0%" y2="23.9%"><stop offset="0%" stop-color="#48bb78" stop-opacity="0"/><stop offset="63.1%" stop-color="#48bb78" stop-opacity=".6"/><stop offset="100%" stop-color="#48bb78"/></linearGradient></defs><g fill="none" fill-rule="evenodd" transform="translate(1 1)"><path stroke="url(#a)" stroke-width="2" d="M36 18C36 8 28 0 18 0"><animateTransform attributeName="transform" dur="0.9s" from="0 18 18" repeatCount="indefinite" to="360 18 18" type="rotate"/></path><circle cx="36" cy="18" r="1" fill="#fff"><animateTransform attributeName="transform" dur="0.9s" from="0 18 18" repeatCount="indefinite" to="360 18 18" type="rotate"/></circle></g></svg>
                 </div>
             </div>
         </div>
@@ -70,20 +76,25 @@ export default {
             search_arr:[],
             roles:[],
             editing_status: false,
-            edit_id:''
+            edit_id:'',
+            loading_view: false,
         }
     },
     methods:{
         async getAllUsers(){
-            let res = await axios({
-            method: 'get',
-            url: `/wp-json/rsu/v1/all`,
-            headers: {
-                'X-WP-Nonce':rusN.nonce
-            }
+            this.loading_view = true;
+            await axios.get('/wp-json/rsu/v1/all',{
+                headers: {
+                    'X-WP-Nonce':rusN.nonce
+                }
+            }).then(res=>{
+                this.users = res.data;
+                this.search_arr = res.data;
+                this.loading_view = false;
+            }).catch(err=>{
+                console.error(err);
             });
-            this.users = res.data;
-            this.search_arr = res.data;
+            
         },
         displayTitleForName(fn, ln){
             if(fn.trim().length+ln.trim().length == 0){
@@ -152,25 +163,40 @@ export default {
             this.search_arr = search_arr;
         },
         async reSync(){
-            await new Promise(async (resolve, reject)=>{
-                let res = await axios({
-                method: 'get',
-                url: `/wp-json/rsu/v1/all`,
+            this.loading_view = true;
+            await axios.get('/wp-json/rsu/v1/all',{
                 headers: {
                     'X-WP-Nonce':rusN.nonce
                 }
-                });
+            }).then(res=>{
                 this.users = res.data;
                 this.search_arr = res.data;
-                
-                if(res.data.length == this.search_arr.length){
-                    resolve("Success fetching data")
-                } else {
-                    reject("Data fetching failed")
-                }
-            }).then(()=>{
+                this.loading_view = false;
+
                 this.searchUser(this.search_text)
-            })
+            }).catch(err=>{
+                console.error(err);
+            });
+            // await new Promise(async (resolve, reject)=>{
+            //     let res = await axios({
+            //     method: 'get',
+            //     url: `/wp-json/rsu/v1/all`,
+            //     headers: {
+            //         'X-WP-Nonce':rusN.nonce
+            //     }
+            //     });
+            //     this.users = res.data;
+            //     this.search_arr = res.data;
+                
+            //     if(res.data.length == this.search_arr.length){
+            //         resolve("Success fetching data")
+            //     } else {
+            //         reject("Data fetching failed")
+            //     }
+            // }).then(()=>{
+            //     this.searchUser(this.search_text)
+            //     this.loading_view = true;
+            // })
         },
         edit(val){
             this.edit_id=val;
