@@ -22,18 +22,18 @@
             <div class="w-full items-start overflow-y-scroll custom_scroll" style="height: 32rem;">
                 <div v-if="!loading_view">
                     <div v-for="(user,i) in search_arr" :key="i" 
-                        class="text-base w-full my-2 rounded-lg transition-shadow duration-300 shadow hover:shadow-lg py-1 grid grid-cols-12 items-center justify-center text-gray-700 bg-gray-100 border border-gray-400 hover:border-teal-500 hover:bg-teal-100 focus:outline-none focus:bg-teal-100">
-                        <span class="truncate pl-4 pr-2 py-1 text-left border-r border-gray-400 select-all overflow-x-hidden col-span-2" :class="user.username ? '' : 'text-red-500'">{{user.username}}</span>
-                        <span class="truncate pl-4 pr-2 py-1 text-left border-r border-gray-400 capitalize col-span-2" 
+                        class="text-base w-full transition-shadow duration-300 shadow-none hover:shadow-inner grid grid-cols-12 items-center justify-center text-gray-700 bg-gray-100 hover:bg-teal-100 focus:outline-none focus:bg-teal-100">
+                        <span class="truncate pl-4 pr-2 py-2 text-left border-r border-gray-400 select-all overflow-x-hidden col-span-2" :class="user.username ? '' : 'text-red-500'">{{user.username}}</span>
+                        <span class="truncate pl-4 pr-2 py-2 text-left border-r border-gray-400 capitalize col-span-2" 
                             :class="user.first_name && user.last_name ? '' : 'text-red-500'"
                             :title="displayTitleForName(user.first_name, user.last_name)" >
                             {{user.first_name}} {{user.last_name}}
                         </span>
-                        <span class="truncate pl-4 pr-2 py-1 text-left border-r border-gray-400 select-all col-span-3" :class="user.email ? '' : 'text-red-500'">{{user.email}}</span>
-                        <span class="truncate pl-4 pr-2 py-1 text-left border-r border-gray-400 select-all capitalize col-span-2" :class="user.billing_company ? '' : 'text-red-500'">{{user.billing_company || 'Empty !!'}}</span>
-                        <span class="truncate pl-4 pr-2 py-1 text-left grid grid-flow-col justify-between items-center capitalize select-none col-span-3">
+                        <span class="truncate pl-4 pr-2 py-2 text-left border-r border-gray-400 select-all col-span-3" :class="user.email ? '' : 'text-red-500'">{{user.email}}</span>
+                        <span class="truncate pl-4 pr-2 py-2 text-left border-r border-gray-400 select-all capitalize col-span-2" :class="user.billing_company ? '' : 'text-red-500'">{{user.billing_company || 'Empty !!'}}</span>
+                        <span class="truncate pl-4 pr-2 py-2 text-left grid grid-flow-col justify-between items-center capitalize select-none col-span-3">
                             <div class="flex flex-wrap">
-                                <span v-for="(rl,x) in user.roles" :key='x' class="rounded-full bg-gray-600 text-white py-1 px-3 text-sm ml-2 my-1"> {{rl}}</span>
+                                <span v-for="(rl,x) in user.roles" :key='x' class="rounded-full bg-teal-400 text-white font-medium py-2 px-3 text-sm ml-2 my-1 leading-none"> {{rl | filter_role}}</span>
                             </div>
                             <div class="flex flex-wrap items-center justify-between">
                                 <a :href="'/wp-admin/user-edit.php?user_id='+user.id+'&wp_http_referer=%2Fwp-admin%2Fusers.php'"  target="_blank" class="text-teal-700 hover:text-teal-500 focus:outline-none select-none">
@@ -46,7 +46,7 @@
                         </span>
                     </div>
                 </div>
-                <div v-if="search_arr.length==0 && !this.loading_view" class="text-base w-full text py-4 flex items-center justify-center text-red-500 bg-red-100 font-medium focus:outline-none select-none">
+                <div v-if="search_arr.length==0 && !this.loading_view" class="text-base w-full text py-5 flex items-center justify-center text-red-500 bg-red-100 font-medium focus:outline-none select-none">
                     <span class="text-center">No Data Found. Try different search.</span>
                 </div>
                 <div v-if="this.loading_view" class="text-lg w-full text py-4 flex flex-wrap items-center justify-center text-green-500 bg-green-100 font-medium focus:outline-none select-none">
@@ -94,7 +94,6 @@ export default {
             }).catch(err=>{
                 console.error(err);
             });
-            
         },
         displayTitleForName(fn, ln){
             if(fn.trim().length+ln.trim().length == 0){
@@ -106,28 +105,33 @@ export default {
             }
         },
         async getNewRoles(){
-            let res = await axios({
-                method: 'get',
-                url: `/wp-json/rsu/v1/all`,
+            this.loading_view = true;
+            await axios.get('/wp-json/rsu/v1/all',{
                 params:{
                     role: this.currentRole
                 },
                 headers: {
                     'X-WP-Nonce':rusN.nonce
                 }
+            }).then(res=>{
+                this.users = res.data;
+                this.search_arr = res.data;
+                this.searchUser(this.search_text);
+                this.loading_view = false;
+            }).catch(err=>{
+                console.error(err);
             });
-            this.users = res.data;
-            this.search_arr = res.data;
         },
         async getAllRoles(){
-            let res = await axios({
-                method: 'get',
-                url: `/wp-json/rsu/v1/roles`,
+            await axios.get('/wp-json/rsu/v1/roles',{
                 headers: {
                     'X-WP-Nonce':rusN.nonce
                 }
+            }).then(res=>{
+                this.roles = res.data;
+            }).catch(err=>{
+                console.error(err);
             });
-            this.roles = res.data;
         },
         slug(str){
             str = str.replace(/^\s+|\s+$/g, ''); // trim
@@ -164,39 +168,23 @@ export default {
         },
         async reSync(){
             this.loading_view = true;
-            await axios.get('/wp-json/rsu/v1/all',{
-                headers: {
-                    'X-WP-Nonce':rusN.nonce
-                }
-            }).then(res=>{
-                this.users = res.data;
-                this.search_arr = res.data;
-                this.loading_view = false;
+            if(this.currentRole!=='') {
+                this.getNewRoles();
+            } else {
+                await axios.get('/wp-json/rsu/v1/all',{
+                    headers: {
+                        'X-WP-Nonce':rusN.nonce
+                    }
+                }).then(res=>{
+                    this.users = res.data;
+                    this.search_arr = res.data;
+                    this.loading_view = false;
 
-                this.searchUser(this.search_text)
-            }).catch(err=>{
-                console.error(err);
-            });
-            // await new Promise(async (resolve, reject)=>{
-            //     let res = await axios({
-            //     method: 'get',
-            //     url: `/wp-json/rsu/v1/all`,
-            //     headers: {
-            //         'X-WP-Nonce':rusN.nonce
-            //     }
-            //     });
-            //     this.users = res.data;
-            //     this.search_arr = res.data;
-                
-            //     if(res.data.length == this.search_arr.length){
-            //         resolve("Success fetching data")
-            //     } else {
-            //         reject("Data fetching failed")
-            //     }
-            // }).then(()=>{
-            //     this.searchUser(this.search_text)
-            //     this.loading_view = true;
-            // })
+                    this.searchUser(this.search_text)
+                }).catch(err=>{
+                    console.error(err);
+                });
+            }
         },
         edit(val){
             this.edit_id=val;
@@ -219,6 +207,9 @@ export default {
     filters:{
         capitalize(val){
             return val.charAt(0).toUpperCase() + val.slice(1)
+        },
+        filter_role(val){
+            return val.replace("_"," ");
         }
     },
     components:{
