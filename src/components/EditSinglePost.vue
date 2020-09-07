@@ -3,11 +3,13 @@
         <form @submit.prevent="save()" @reset.prevent="reset()" @keydown.esc="reset()" class="w-full flex flex-wrap justify-between items-center">
             <p class="text-lg text-teal-600">Editing Customer id: <span class="font-medium">{{edit_id}}</span></p>
             <div class="flex flex-wrap items-center justify-center">
-                <a class="bg-teal-500 hover:bg-teal-400 focus:bg-teal-400 mr-4 focus:outline-none select-none text-lg rounded p-2 shadow-md hover:shadow-none duration-300 transition-colors" :href="'/wp-admin/user-edit.php?user_id='+edit_id+'&wp_http_referer=%2Fwp-admin%2Fusers.php'"  target="_blank">
-                    <svg class="w-4 h-4 inline-block fill-current text-white" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M5 7a1 1 0 00-1 1v11a1 1 0 001 1h11a1 1 0 001-1v-6a1 1 0 112 0v6a3 3 0 01-3 3H5a3 3 0 01-3-3V8a3 3 0 013-3h6a1 1 0 110 2H5zM14 3c0-.6.4-1 1-1h6c.6 0 1 .4 1 1v6a1 1 0 11-2 0V4h-5a1 1 0 01-1-1z" clip-rule="evenodd"/><path fill-rule="evenodd" d="M21.7 2.3c.4.4.4 1 0 1.4l-11 11a1 1 0 01-1.4-1.4l11-11a1 1 0 011.4 0z" clip-rule="evenodd"/></svg>
+                <!-- <a class="bg-teal-500 hover:bg-teal-400 focus:bg-teal-400 mr-4 focus:outline-none select-none text-lg rounded p-2 shadow-md hover:shadow-none duration-300 transition-colors" :href="'/wp-admin/user-edit.php?user_id='+edit_id+'&wp_http_referer=%2Fwp-admin%2Fusers.php'"  target="_blank"> -->
+                <a class="text-teal-500 hover:text-gray-400 focus:text-gray-400 mr-3 focus:outline-none focus:shadow-none select-none duration-300 transition-colors" :href="'/wp-admin/user-edit.php?user_id='+edit_id+'&wp_http_referer=%2Fwp-admin%2Fusers.php'"  target="_blank">
+                    <svg class="w-6 h-6 inline-block fill-current" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M5 7a1 1 0 00-1 1v11a1 1 0 001 1h11a1 1 0 001-1v-6a1 1 0 112 0v6a3 3 0 01-3 3H5a3 3 0 01-3-3V8a3 3 0 013-3h6a1 1 0 110 2H5zM14 3c0-.6.4-1 1-1h6c.6 0 1 .4 1 1v6a1 1 0 11-2 0V4h-5a1 1 0 01-1-1z" clip-rule="evenodd"/><path fill-rule="evenodd" d="M21.7 2.3c.4.4.4 1 0 1.4l-11 11a1 1 0 01-1.4-1.4l11-11a1 1 0 011.4 0z" clip-rule="evenodd"/></svg>
                 </a>
                 <button type="button" @click.prevent="close" class="focus:outline-none focus:shadow-none select-none text-red-600 focus:text-gray-400 hover:text-gray-400 duration-300 transition-colors">
-                    <svg class="w-8 h-8 inline-block fill-current transform rotate-45" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12 4c.6 0 1 .4 1 1v14a1 1 0 11-2 0V5c0-.6.4-1 1-1z" clip-rule="evenodd"/><path fill-rule="evenodd" d="M4 12c0-.6.4-1 1-1h14a1 1 0 110 2H5a1 1 0 01-1-1z" clip-rule="evenodd"/></svg>
+                    <svg class="w-7 h-7 inline-block fill-current" viewBox="0 0 24 24"><path  fill-rule="evenodd" d="M18.7 5.3c.4.4.4 1 0 1.4l-12 12a1 1 0 01-1.4-1.4l12-12a1 1 0 011.4 0z" clip-rule="evenodd"/><path  fill-rule="evenodd" d="M5.3 5.3a1 1 0 011.4 0l12 12a1 1 0 01-1.4 1.4l-12-12a1 1 0 010-1.4z" clip-rule="evenodd"/></svg>
+                    <!-- <svg class="w-8 h-8 inline-block fill-current transform rotate-45" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12 4c.6 0 1 .4 1 1v14a1 1 0 11-2 0V5c0-.6.4-1 1-1z" clip-rule="evenodd"/><path fill-rule="evenodd" d="M4 12c0-.6.4-1 1-1h14a1 1 0 110 2H5a1 1 0 01-1-1z" clip-rule="evenodd"/></svg> -->
                 </button>
             </div>
             <div class="pt-4 pb-2 grid grid-cols-2 gap-2">
@@ -42,7 +44,6 @@
                 </button>
                 <button type="reset" class="bg-gray-600 duration-300 transition-all flex felx-wrap justify-center items-center shadow-md py-2 px-4 focus:outline-none focus:shadow-outline select-none hover:bg-gray-500 text-white text-base font-medium rounded-md">
                     Restore
-                    <svg class="w-4 h-4 ml-2 inline-block fill-current" viewBox="0 0 24 24"><g fill-rule="evenodd" clip-path="url(#clip0)" clip-rule="evenodd"><path d="M1 3c.6 0 1 .4 1 1v5h5a1 1 0 010 2H1a1 1 0 01-1-1V4c0-.6.4-1 1-1z"/><path d="M10.6 2.1a10 10 0 11-8 13.2 1 1 0 011.9-.6 8 8 0 101.8-8.3l-4.6 4.3A1 1 0 11.3 9.3L5 4.9a10 10 0 015.7-2.8z"/></g><defs><clipPath id="clip0"><path d="M0 0h24v24H0z"/></clipPath></defs></svg>
                 </button>
             </div>
         </form>
@@ -206,5 +207,13 @@ export default {
 
 .notifications {
     position: absolute !important;
+}
+
+.w-7{
+    width: 1.8rem;
+}
+
+.h-7{
+    height: 1.8rem;
 }
 </style>
