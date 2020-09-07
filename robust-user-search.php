@@ -74,10 +74,10 @@ class RobustUserSearch {
      * @return none
      */
     protected function includingFile(){
-        require_once(RUS_DIRECTORY.'/Includes/activation.php');
-        require_once(RUS_DIRECTORY.'/Includes/deactivate.php');
-        require_once(RUS_DIRECTORY.'/Includes/index-controller.php');
-        require_once(RUS_DIRECTORY.'/Includes/settings-controller.php');
+        require_once(RUS_DIRECTORY.'/includes/activation.php');
+        require_once(RUS_DIRECTORY.'/includes/deactivate.php');
+        require_once(RUS_DIRECTORY.'/includes/index-controller.php');
+        require_once(RUS_DIRECTORY.'/includes/settings-controller.php');
 
         include_once(RUS_DIRECTORY.'/api/list-all-users.php');
         include_once(RUS_DIRECTORY.'/api/list-single-user.php');
