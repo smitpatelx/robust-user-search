@@ -1,14 +1,17 @@
 <?php
-/*
-Plugin Name: Robust User Search
-Description: Search users easily with this supercharged plugin.
-Plugin URI:  https://smitpatelx.com/robust-user-search
-Author:      Smit Patel
-Author URI:  https://smitpatelx.com
-Version:     1.0.3
-License:     GPLv2 or later
-License URI: https://www.gnu.org/licenses/gpl-2.0.txt
-*/
+/**
+ * Plugin Name:         Robust User Search
+ * Description:         Search users easily with this supercharged plugin.
+ * Plugin URI:          https://wordpress.org/plugins/robust-user-search
+ * Text Domain:         robust-user-search
+ * Author:              Smit Patel
+ * Author URI:          https://smitpatelx.com
+ * Version:             1.0.3
+ * Requires at least:   5.2
+ * Requires PHP:        7.1
+ * License:             MIT
+ * License URI:         https://github.com/smitpatelx/robust_user_search/blob/master/LICENSE
+ */
 
 if(!defined('ABSPATH')){
     exit;//Exit if accessed directly
