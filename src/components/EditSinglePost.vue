@@ -1,6 +1,6 @@
 <template>
     <div class="w-84 bg-white shadow-inner rounded-lg py-4 px-6" >
-        <form @submit.prevent="save()" @reset.prevent="reset()" @keydown.esc="reset()" class="w-full flex flex-wrap justify-between items-center">
+        <form @keydown.esc="close()" @submit.prevent="save()" @reset.prevent="reset()" class="w-full flex flex-wrap justify-between items-center">
             <p class="text-lg text-teal-600">Editing Customer id: <span class="font-medium">{{edit_id}}</span></p>
             <div class="flex flex-wrap items-center justify-center">
                 <!-- <a class="bg-teal-500 hover:bg-teal-400 focus:bg-teal-400 mr-4 focus:outline-none select-none text-lg rounded p-2 shadow-md hover:shadow-none duration-300 transition-colors" :href="'/wp-admin/user-edit.php?user_id='+edit_id+'&wp_http_referer=%2Fwp-admin%2Fusers.php'"  target="_blank"> -->
@@ -180,7 +180,10 @@ export default {
         },
     },
     created(){
-        this.init()
+        this.init();
+        setTimeout(()=>{
+            document.getElementById("first_name").focus();
+        },200);
     }
 }
 </script>
