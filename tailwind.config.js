@@ -7,7 +7,7 @@
 module.exports = {
   purge: [
     './src/components/**/*.vue',
-    './rus_includes/**/*.php',
+    './includes/**/*.php',
   ],
   future: {
     removeDeprecatedGapUtilities: true,
