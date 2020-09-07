@@ -39,7 +39,7 @@
 
 | Wordpress Version | Supported |
 |:---:|:---:|
-| V 5.* | ✔️ |
+| v 5.2 or Later | ✔️ |
 
 
 ### Installtion Process
