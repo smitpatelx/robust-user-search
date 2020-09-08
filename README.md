@@ -51,7 +51,7 @@
   - On your wordpress dashboard, navigate to : ***Robust Search***
   
 + Direct install
-  - Download latest version of this plugin by clicking on this link: [**Download 📥**](https://downloads.smitpatelx.com/robust-user-search/latest)
+  - Download latest version of this plugin by clicking on this link: [**Download 📥**](https://apps.smitpatelx.com/robust-user-search/latest)
   - On your website, navigate to ***Plugins >> Add new >> Upload >> Select downloaded file***
   - Install & Activate
   
