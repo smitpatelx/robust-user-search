@@ -2,7 +2,7 @@
 /**
  * Plugin Name:         Robust User Search
  * Description:         Search users easily with this supercharged plugin.
- * Plugin URI:          https://wordpress.org/plugins/robust-user-search
+ * Plugin URI:          https://smitpatelx.com/apps/robust-user-search
  * Text Domain:         robust-user-search
  * Author:              Smit Patel
  * Author URI:          https://smitpatelx.com
