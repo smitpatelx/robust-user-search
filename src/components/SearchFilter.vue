@@ -36,10 +36,10 @@
                                 <span v-for="(rl,x) in user.roles" :key='x' class="rounded-full bg-teal-400 text-white font-medium py-2 px-3 text-sm ml-2 my-1 leading-none"> {{rl | filter_role}}</span>
                             </div>
                             <div class="flex flex-wrap items-center justify-between">
-                                <a :href="'/wp-admin/user-edit.php?user_id='+user.id+'&wp_http_referer=%2Fwp-admin%2Fusers.php'"  target="_blank" class="text-teal-700 hover:text-teal-500 focus:outline-none select-none">
+                                <a :href="'/wp-admin/user-edit.php?user_id='+user.id+'&wp_http_referer=%2Fwp-admin%2Fusers.php'"  target="_blank" class="text-teal-700 hover:text-gray-500 focus:text-gray-500 focus:outline-none select-none">
                                     <svg class="w-5 h-5 fill-current inline-block mr-2 focus:outline-none select-none" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M2.1 12a17 17 0 002.5 3.3c1.8 2 4.3 3.7 7.4 3.7 3.1 0 5.6-1.8 7.4-3.7a18.7 18.7 0 002.5-3.3 17 17 0 00-2.5-3.3C17.6 6.7 15.1 5 12 5 8.9 5 6.4 6.8 4.6 8.7A18.7 18.7 0 002.1 12zM23 12l.9-.4a10.6 10.6 0 00-.8-1.4L21 7.3c-2-2-5-4.3-8.9-4.3-3.9 0-6.9 2.2-8.9 4.3a20.7 20.7 0 00-3 4.2l.9.5-.9-.4a1 1 0 000 .8L1 12l-.9.4a8.3 8.3 0 00.2.4 18.5 18.5 0 002.8 3.9c2 2 5 4.3 8.9 4.3 3.9 0 6.9-2.2 8.9-4.3a20.7 20.7 0 003-4.2L23 12zm0 0l.9.4a1 1 0 000-.8l-.9.4z" clip-rule="evenodd"/><path fill-rule="evenodd" d="M12 10a2 2 0 100 4 2 2 0 000-4zm-4 2a4 4 0 118 0 4 4 0 01-8 0z" clip-rule="evenodd"/></svg>
                                 </a>
-                                <button @click="edit(user.id)"  target="_blank" class="text-teal-700 hover:text-teal-600 focus:outline-none select-none">
+                                <button @click="edit(user.id)"  target="_blank" class="text-teal-700 hover:text-gray-500 focus:text-gray-500 focus:outline-none select-none">
                                     <svg class="w-5 h-5 fill-current inline-block mr-2 focus:outline-none select-none" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M4 5a1 1 0 00-1 1v14a1 1 0 001 1h14a1 1 0 001-1v-5.3a1 1 0 112 0V20a3 3 0 01-3 3H4a3 3 0 01-3-3V6a3 3 0 013-3h5.3a1 1 0 010 2H4z" clip-rule="evenodd"/><path fill-rule="evenodd" d="M17.3 1.3a1 1 0 011.4 0l4 4c.4.4.4 1 0 1.4l-10 10a1 1 0 01-.7.3H8a1 1 0 01-1-1v-4c0-.3.1-.5.3-.7l10-10zM9 12.4V15h2.6l9-9L18 3.4l-9 9z" clip-rule="evenodd"/></svg>
                                 </button>
                             </div>

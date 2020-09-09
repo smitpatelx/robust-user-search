@@ -87,7 +87,8 @@ class SettingsController {
         }
 
         ?>
-        <div class="flex flex-wrap antialiased relative font-sans" style="width:100% !important;">
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" rel="stylesheet">
+        <div id="rusSettings" class="flex flex-wrap antialiased relative font-sans" style="width:100% !important;">
             <form method="post" name="form-role" action="" class="w-full flex flex-wrap flex-col mt-2 p-4">
                 <p class="text-2xl text-gray-800 font-medium flex flex-wrap items-center justify-center">
                     Settings
@@ -149,6 +150,11 @@ class SettingsController {
 
             .focus\:shadow-outline:focus {
                 box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.5) !important;
+            }
+
+            html body #wpwrap #wpcontent #rusSettings{
+                font-family: Inter, Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji !important;
+                line-height: 1.5 !important;
             }
         </style>
         <?php

@@ -75,6 +75,7 @@ class IndexController {
         ));
         
         ?>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" rel="stylesheet">
         <div class="flex flex-wrap antialiased font-sans" style="width:100% !important;">
             <div class="w-full flex flex-wrap mt-2">
                 <div id="vueApp" class="w-full">
