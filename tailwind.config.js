@@ -13,12 +13,15 @@ module.exports = {
     removeDeprecatedGapUtilities: true,
   },
   theme: {
+    fontFamily: {
+      'sans': ["Inter var","BlinkMacSystemFont","Segoe UI","Roboto","Helvetica Neue","Arial","Noto Sans","sans-serif","Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji"],
+    },
     extend: {
       colors: {
         'primary': '#0a192f',
         'secondary': '#0d1e36',
-      }
-    }
+      },
+    },
   },
   variants: {
     
