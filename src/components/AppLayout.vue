@@ -1,5 +1,6 @@
 <template>
-    <div class="w-full flex flex-wrap px-4 py-4">
+    <div class="w-full flex flex-wrap px-4 py-4 font-normal">
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" rel="stylesheet">
         <div class="flex flex-wrap w-full items-center justify-center">
             <span class="text-primary py-2 text-2xl font-medium flex flex-wrap items-center justify-center">
                 Robust User Search

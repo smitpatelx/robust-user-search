@@ -2,19 +2,24 @@
 @tailwind components;
 @tailwind utilities;
 
-@font-face {
-    font-family: "Inter var" !important;
-    font-style: normal !important;
-    font-weight: 400 !important;
-    src: url(/wp-content/plugins/robust-user-search/assets/Inter-roman-latin.woff2) format("woff2") !important;
-}
+// .font-normal {
+//     @at-root {
+//         @font-face {
+//             font-family: 'Inter, Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji' !important;
+//             font-style:  normal;
+//             font-weight: 400;
+//             src: url(/wp-content/plugins/robust-user-search/assets/Inter-Regular.woff2) format("woff2");
+//         }
+//     }
+// }
 
-@font-face {
-    font-family: "Inter var" !important;
-    font-style: normal !important;
-    font-weight: 500 !important;
-    src: url(/wp-content/plugins/robust-user-search/assets/Inter-roman-latin.woff2) format("woff2") !important;
-}
+// @font-face {
+//     font-family: 'Inter, Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji' !important;
+//     // font-family: 'Inter' !important;
+//     font-style:  normal;
+//     font-weight: 500;
+//     src: url(/wp-content/plugins/robust-user-search/assets/Inter-Medium.woff2) format("woff2");
+// }
 
 // @font-face {
 //     font-family: "Inter var";
