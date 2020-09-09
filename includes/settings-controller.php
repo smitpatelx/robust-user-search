@@ -87,7 +87,7 @@ class SettingsController {
         }
 
         ?>
-        <div class="flex flex-wrap antialiased relative" style="width:100% !important;">
+        <div class="flex flex-wrap antialiased relative font-sans" style="width:100% !important;">
             <form method="post" name="form-role" action="" class="w-full flex flex-wrap flex-col mt-2 p-4">
                 <p class="text-2xl text-gray-800 font-medium flex flex-wrap items-center justify-center">
                     Settings

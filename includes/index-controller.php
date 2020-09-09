@@ -65,7 +65,7 @@ class IndexController {
      */
     public function indexOutput() {
         $dir = explode("/", plugin_basename(__FILE__))[0];
-        wp_enqueue_style( 'rus-css', '/wp-content/plugins/'.$dir.'/dist/css/app.css' , array(), null, false);
+        wp_enqueue_style( 'rus-css', '/wp-content/plugins/'.$dir.'/dist/css/app.css', array(), null, false);
         wp_enqueue_script( 'rus-manifest', '/wp-content/plugins/'.$dir.'/dist/js/manifest.js', array(), null, true);
         wp_enqueue_script( 'rus-vendor', '/wp-content/plugins/'.$dir.'/dist/js/vendor.js', array(), null, true);
         wp_enqueue_script( 'rus-app', '/wp-content/plugins/'.$dir.'/dist/js/app.js', array(), null, true);
@@ -75,7 +75,7 @@ class IndexController {
         ));
         
         ?>
-        <div class="flex flex-wrap antialiased" style="width:100% !important;">
+        <div class="flex flex-wrap antialiased font-sans" style="width:100% !important;">
             <div class="w-full flex flex-wrap mt-2">
                 <div id="vueApp" class="w-full">
                     <app-layout/>

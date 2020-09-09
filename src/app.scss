@@ -3,17 +3,17 @@
 @tailwind utilities;
 
 @font-face {
-    font-family: "Inter var";
-    font-style: normal;
-    font-weight: 400;
-    src: url(/wp-content/plugins/robust-user-search/assets/Inter-roman-latin.woff2) format("woff2");
+    font-family: "Inter var" !important;
+    font-style: normal !important;
+    font-weight: 400 !important;
+    src: url(/wp-content/plugins/robust-user-search/assets/Inter-roman-latin.woff2) format("woff2") !important;
 }
 
 @font-face {
-    font-family: "Inter var";
-    font-style: normal;
-    font-weight: 500;
-    src: url(/wp-content/plugins/robust-user-search/assets/Inter-roman-latin.woff2) format("woff2");
+    font-family: "Inter var" !important;
+    font-style: normal !important;
+    font-weight: 500 !important;
+    src: url(/wp-content/plugins/robust-user-search/assets/Inter-roman-latin.woff2) format("woff2") !important;
 }
 
 // @font-face {
