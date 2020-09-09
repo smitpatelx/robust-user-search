@@ -15,34 +15,34 @@
             <div class="pt-4 pb-2 grid grid-cols-2 gap-2">
                 <div class="w-full flex flex-wrap">
                     <label for="first_name" class="mb-2 font-medium text-gray-600">First Name</label>
-                    <input v-model="first_name" :placeholder="first_name == ''? 'Empty' : ''" type="text" id="first_name" name="first_name" class="w-full py-1 px-2 bg-teal-100-b focus:outline-none border focus:border-teal-500" :autocomplete="random_alpha">
+                    <input v-model="first_name" :placeholder="first_name == ''? 'Empty' : ''" type="text" id="first_name" name="first_name" class="w-full py-1 px-2 bg-teal-100-b focus:outline-none focus:shadow-outline shadow text-base" :autocomplete="random_alpha">
                 </div>
                 <div class="w-full flex flex-wrap">
                     <label for="last_name" class="mb-2 font-medium text-gray-600">Last Name</label>
-                    <input v-model="last_name" :placeholder="last_name == ''? 'Empty' : ''" type="text" id="last_name" name="last_name" class="w-full py-1 px-2 bg-teal-100-b focus:outline-none border focus:border-teal-500" :autocomplete="random_alpha">
+                    <input v-model="last_name" :placeholder="last_name == ''? 'Empty' : ''" type="text" id="last_name" name="last_name" class="w-full py-1 px-2 bg-teal-100-b focus:outline-none focus:shadow-outline shadow text-base" :autocomplete="random_alpha">
                 </div>
             </div>
             <div class="py-2 grid grid-cols-2 gap-2">
                 <div class="w-full flex flex-wrap">
                     <label for="email" class="mb-2 font-medium text-gray-600">Email Address</label>
-                    <input v-model="email" :placeholder="email == ''? 'Empty' : ''" type="email" id="email" name="email" class="w-full py-1 px-2 bg-teal-100-b focus:outline-none border focus:border-teal-500">
+                    <input v-model="email" :placeholder="email == ''? 'Empty' : ''" type="email" id="email" name="email" class="w-full py-1 px-2 bg-teal-100-b focus:outline-none focus:shadow-outline shadow text-base">
                 </div>
                 <div class="w-full flex flex-wrap">
                     <label for="billing_phone" class="mb-2 font-medium text-gray-600">Billing Phone</label>
-                    <input v-model="phone" :placeholder="phone == ''? 'Empty' : ''" type="tel" id="billing_phone" name="billing_phone" class="w-full py-1 px-2 bg-teal-100-b focus:outline-none border focus:border-teal-500" :autocomplete="random_alpha">
+                    <input v-model="phone" :placeholder="phone == ''? 'Empty' : ''" type="tel" id="billing_phone" name="billing_phone" class="w-full py-1 px-2 bg-teal-100-b focus:outline-none focus:shadow-outline shadow text-base" :autocomplete="random_alpha">
                 </div>
             </div>
             <div class="w-full flex flex-wrap py-2">
                 <label for="billing_company" class="mb-2 font-medium text-gray-600">Billing Company</label>
-                <input v-model="billing_company" :placeholder="billing_company == ''? 'Empty' : ''" type="text" id="billing_company" name="billing_company" class="w-full py-1 px-2 bg-teal-100-b focus:outline-none border focus:border-teal-500" :autocomplete="random_alpha">
+                <input v-model="billing_company" :placeholder="billing_company == ''? 'Empty' : ''" type="text" id="billing_company" name="billing_company" class="w-full py-1 px-2 bg-teal-100-b focus:outline-none focus:shadow-outline shadow text-base" :autocomplete="random_alpha">
             </div>
             
             <div class="w-full flex flex-wrap justify-between items-center bottom-0 pt-6 pb-2 self-end">
-                <button type="submit" class="bg-teal-500 duration-300 transition-all flex felx-wrap justify-center items-center shadow-md py-2 px-4 focus:outline-none focus:shadow-outline select-none hover:bg-teal-400 text-white text-base font-medium rounded-md">
+                <button type="submit" class="bg-teal-500 duration-300 transition-all flex felx-wrap justify-center items-center shadow-md py-2 px-6 focus:outline-none focus:shadow-outline select-none hover:bg-teal-400 text-white text-base font-medium rounded">
                     Save
                     <svg class="w-4 h-4 ml-2 fill-current" :class="loading_data ? 'inline-block' : 'hidden'" viewBox="0 0 38 38"><defs><linearGradient id="a" x1="8%" x2="65.7%" y1="0%" y2="23.9%"><stop offset="0%" stop-color="#fff" stop-opacity="0"/><stop offset="63.1%" stop-color="#fff" stop-opacity=".6"/><stop offset="100%" stop-color="#fff"/></linearGradient></defs><g fill="none" fill-rule="evenodd" transform="translate(1 1)"><path stroke="url(#a)" stroke-width="2" d="M36 18C36 8 28 0 18 0"><animateTransform attributeName="transform" dur="0.9s" from="0 18 18" repeatCount="indefinite" to="360 18 18" type="rotate"/></path><circle cx="36" cy="18" r="1" fill="#fff"><animateTransform attributeName="transform" dur="0.9s" from="0 18 18" repeatCount="indefinite" to="360 18 18" type="rotate"/></circle></g></svg>
                 </button>
-                <button type="reset" class="bg-gray-600 duration-300 transition-all flex felx-wrap justify-center items-center shadow-md py-2 px-4 focus:outline-none focus:shadow-outline select-none hover:bg-gray-500 text-white text-base font-medium rounded-md">
+                <button type="reset" class="bg-gray-600 duration-300 transition-all flex felx-wrap justify-center items-center shadow-md py-2 px-6 focus:outline-none focus:shadow-outline select-none hover:bg-gray-500 text-white text-base font-medium rounded">
                     Restore
                 </button>
             </div>
@@ -103,24 +103,29 @@ export default {
             this.$emit('close_this', false);
         },
         async init(){
-            let {data} = await axios({
-                method: 'get',
-                url: `/wp-json/rsu/v1/user/${this.edit_id}`,
+            await axios.get(`/wp-json/rsu/v1/user/${this.edit_id}`,{
                 headers: {
                     'X-WP-Nonce':rusN.nonce
                 }
-            });
-            this.reset_data = data;
-            this.first_name = data.first_name;
-            this.last_name = data.last_name;
-            this.email = data.email;
-            this.phone = data.billing_phone;
-            this.billing_company = data.billing_company;
+            }).then(({data})=>{
+                this.reset_data = data;
+                this.first_name = data.first_name;
+                this.last_name = data.last_name;
+                this.email = data.email;
+                this.phone = data.billing_phone;
+                this.billing_company = data.billing_company;
 
-            this.$notify({
-                group: 'success',
-                title: 'Data Loaded',
-                text: 'User data downloaded',
+                this.$notify({
+                    group: 'success',
+                    title: 'Data Loaded',
+                    text: 'User data downloaded',
+                });
+            }).catch(err=>{
+                this.$notify({
+                    group: 'error',
+                    title: 'Error',
+                    text: 'You may not have access to API. Contact Administrator',
+                });
             });
         },
         async save(){
@@ -150,7 +155,7 @@ export default {
                     title: 'Error',
                     text: err.response.data.message,
                 });
-                // console.log(err.response.data.message)
+                this.loading_data = false;
             })
         },
         async reset(){
