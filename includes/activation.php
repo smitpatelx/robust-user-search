@@ -37,7 +37,7 @@ class RusActivation {
         } else {
             foreach($db_saved_roles as $role){
                 $get_role = get_role($role);
-                $get_role->add_cap('robust_user_search', true);
+                $get_role->add_cap(RUS_CAPABILITY, true);
             }
         }
     }
@@ -56,7 +56,7 @@ class RusActivation {
             $get_roles = get_option('rus_allowed_roles');
             foreach($get_roles as $role){
                 $get_role = get_role($role);
-                $get_role->add_cap('robust_user_search', true);
+                $get_role->add_cap(RUS_CAPABILITY, true);
             }
         } else {
             add_action('admin_notices', function() {

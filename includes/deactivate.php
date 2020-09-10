@@ -41,7 +41,7 @@ class RusDeactivation {
         } else {
             foreach($db_saved_roles as $role){
                 $get_role = get_role($role);
-                $get_role->remove_cap('robust_user_search');
+                $get_role->remove_cap(RUS_CAPABILITY);
             } 
         }
 

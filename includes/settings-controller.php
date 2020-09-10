@@ -41,7 +41,7 @@ class RusSettingsController {
      */
     public function register() {
         //add_submenu_page( string $parent_slug, string $page_title, string $menu_title, string $capability, string $menu_slug, callable $function = '', int $position = null )
-        add_submenu_page( 'rus', 'Settings', 'Settings', 'robust_user_search', 'rus-settings', array( $this, 'settingsOutput'), );
+        add_submenu_page( 'rus', 'Settings', 'Settings', RUS_CAPABILITY, 'rus-settings', array( $this, 'settingsOutput'), );
     }
 
     /**
@@ -52,12 +52,14 @@ class RusSettingsController {
      */
     public function settingsOutput(){
         $db_saved_roles = get_option('rus_allowed_roles',[]);
-    
+        $current_user_role = wp_get_current_user()->roles[0];
+
         global $wp_roles;
         $all_roles = $wp_roles->roles;
         $editable_roles = apply_filters('editable_roles', $all_roles);
 
         wp_enqueue_style( 'rus-css', RUS_DIST_CSS_APP, array(), null, false);
+        wp_enqueue_style( 'rus-fonts', RUS_FONTS, array(), null, false);
 
         if($_SERVER["REQUEST_METHOD"] == "POST") {
             $errors=[];
@@ -65,13 +67,10 @@ class RusSettingsController {
 
             // To prevent user from submitting new roles
             foreach($editable_roles as $key => $role){
-                if(isset($_POST[$key])){
-                    // Each values
-                    $rus_input_name = $_POST[$key];
-                    // Validate each values $wp_roles
-                    if($key == $rus_input_name){
-                        array_push($allowed_roles_array, $key);
-                    }
+                $current_post_value = isset($_POST[$key]) ? sanitize_text_field($_POST[$key]) : '';
+                // Validating $_POST
+                if( isset($_POST[$key]) && $key == $current_post_value){
+                    array_push($allowed_roles_array, $current_post_value);
                 }
             }
             
@@ -84,11 +83,11 @@ class RusSettingsController {
             if($update_success){
                 foreach($editable_roles as $key => $role){
                     $get_role = get_role($key);
-                    $get_role->remove_cap('robust_user_search');
+                    $get_role->remove_cap(RUS_CAPABILITY);
                 }
                 foreach($allowed_roles_array as $role){
                     $get_role = get_role($role);
-                    $get_role->add_cap('robust_user_search', true);
+                    $get_role->add_cap(RUS_CAPABILITY, true);
                 }
 
                 global $wp_roles;
@@ -100,7 +99,6 @@ class RusSettingsController {
         }
 
         ?>
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" rel="stylesheet">
         <div id="rusSettings" class="flex flex-wrap antialiased relative font-sans" style="width:100% !important;">
             <form method="post" name="form-role" action="" class="w-full flex flex-wrap flex-col mt-2 p-4">
                 <p class="text-2xl text-gray-800 font-medium flex flex-wrap items-center justify-center">
@@ -125,15 +123,17 @@ class RusSettingsController {
                 <div class="w-64 flex flex-wrap flex-col mt-3">
                     <?php
                         foreach($editable_roles as $key => $role){
-                        $checked = isset($role['capabilities']['robust_user_search']) ? 'checked' : '';
-                        echo '<div class="grid grid-cols-5 bg-teal-100 py-3 px-3 hover:bg-gray-200">';
+                            $hide_this = $current_user_role == $key ? 'hidden' : 'grid';
+                            $checked = isset($role['capabilities'][RUS_CAPABILITY]) ? 'checked' : '';
+
+                            echo '<div class="'.$hide_this.' grid-cols-5 bg-teal-100 py-3 px-3 hover:bg-gray-200">';
                             echo '<div class="col-span-4">';
                             echo '<span class="capitalize mr-4 text-gray-700 text-base">'.$role['name'].'</span>';
                             echo '</div>';
                             echo '<div class="col-span-1 flex flex-wrap justify-end items-center">';
-                            echo '<input type="checkbox" name="'.$key.'" value="'.$key.'" class="focus:outline-none focus:shadow-outline" '.$checked.' />';
+                            echo '<input type="checkbox" name="'.$key.'" value="'.$key.'" class="focus:outline-none focus:shadow-outline" '.$checked.'/>';
                             echo '</div>';
-                        echo '</div>';
+                            echo '</div>';
                         }
                     ?>
                 </div>

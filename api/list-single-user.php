@@ -24,7 +24,7 @@ class RusRestApiGetSingleUser {
             'methods' => 'GET',
             'callback' => [$this,'processRequest'],
             'permission_callback' => function($request){	  
-                return current_user_can('robust_user_search');
+                return current_user_can(RUS_CAPABILITY);
             }
         ));
     }
