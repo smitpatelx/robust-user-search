@@ -1,4 +1,7 @@
 <?php
+namespace Rus\Includes;
+
+use Rus\Helper\RusHelper;
 /**
  * Activation Class
  * 
@@ -6,7 +9,7 @@
  * @subpackage includes
  * @author     Smit Patel <smitpatel.dev@gmail.com>
  */
-class Activation {
+class RusActivation {
 
     /**
      * Security Check & register activation hook
@@ -15,7 +18,7 @@ class Activation {
      * @return null
      */
     public function __construct($file){
-        RobustUserSearch::checkSecurity();
+        RusHelper::checkSecurity();
         register_activation_hook( $file, [$this, 'activate']);
     }
 

@@ -1,4 +1,7 @@
 <?php
+namespace Rus\Includes;
+
+use Rus\Helper\RusHelper;
 /**
  * Settings controller to handle settings page for this plugin
  * 
@@ -6,7 +9,7 @@
  * @subpackage includes
  * @author     Smit Patel <smitpatel.dev@gmail.com>
  */
-class SettingsController {
+class RusSettingsController {
     private static $instance;
 
     /**
@@ -16,7 +19,7 @@ class SettingsController {
      * @return null
      */
     public function __construct(){
-        RobustUserSearch::checkSecurity();
+        RusHelper::checkSecurity();
     }
 
     /**
@@ -31,7 +34,7 @@ class SettingsController {
     }
 
     /**
-     * Adding plugin page to RobustUserSearch submenu
+     * Adding settings submenu page to wordpress admin
      *
      * @param null
      * @return null
@@ -48,25 +51,35 @@ class SettingsController {
      * @return null
      */
     public function settingsOutput(){
-        $dir = explode("/", plugin_basename(__FILE__))[0];
         $db_saved_roles = get_option('rus_allowed_roles',[]);
     
         global $wp_roles;
         $all_roles = $wp_roles->roles;
         $editable_roles = apply_filters('editable_roles', $all_roles);
 
-        wp_enqueue_style( 'rus-css', '/wp-content/plugins/'.$dir.'/dist/css/app.css' , array(), null, false);
+        wp_enqueue_style( 'rus-css', RUS_DIST_CSS_APP, array(), null, false);
 
         if($_SERVER["REQUEST_METHOD"] == "POST") {
             $errors=[];
-            $rus_form = $_POST;
             $allowed_roles_array = [];
-            foreach($rus_form as $key => $role){
-                array_push($allowed_roles_array, $key);
+
+            // To prevent user from submitting new roles
+            foreach($editable_roles as $key => $role){
+                if(isset($_POST[$key])){
+                    // Each values
+                    $rus_input_name = $_POST[$key];
+                    // Validate each values $wp_roles
+                    if($key == $rus_input_name){
+                        array_push($allowed_roles_array, $key);
+                    }
+                }
             }
             
-            // print_r("Key: ".$key." , Value: ".$role);
-            $update_success = update_option('rus_allowed_roles', $allowed_roles_array);
+            if(isset($allowed_roles_array) && !empty($allowed_roles_array)) {
+                $update_success = update_option('rus_allowed_roles', $allowed_roles_array);
+            } else {
+                array_push($errors,"allowed_roles_array must be non-empty array.");
+            }
 
             if($update_success){
                 foreach($editable_roles as $key => $role){

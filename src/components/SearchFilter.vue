@@ -1,7 +1,7 @@
 <template>
     <div class="w-full flex flex-wrap">
         <div class="w-full mt-2 flex" :class="editing_status ? 'filter-blur' : ''">
-            <input @keydown.esc="search_text=''" class="text-base bg-blue-500 placeholder-text-gray-200 focus:outline-none focus:shadow-outline" type="text" placeholder="Search User | Esc to clear" v-model="search_text" title="Press Esc to clear !">
+            <input @keydown.esc="search_text=''" class="text-sm bg-blue-500 placeholder-text-gray-200 focus:outline-none focus:shadow-outline" type="text" placeholder="Search User | Esc to clear" v-model="search_text" title="Press Esc to clear !">
             <button @click="reSync" class="bg-primary hover:bg-gray-700 transition-colors duration-500 text-white pl-2 pr-3 ml-2 rounded flex flex-wrap justify-center items-center focus:outline-none focus:shadow-outline">
                 <svg class="w-4 h-4 fill-current inline-block text-white mr-2" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M13.4 1c.4.3.6.7.6 1.1L13 9H21a1 1 0 01.8 1.6l-10 12A1 1 0 0110 22L11 15H3a1 1 0 01-.8-1.6l10-12a1 1 0 011.2-.3zM5.1 13H12a1 1 0 011 1.1l-.6 4.6L19 11H12a1 1 0 01-1-1.1l.6-4.6L5 13z" clip-rule="evenodd"/></svg> 
                 <span class="text-base font-medium">ReSync</span>

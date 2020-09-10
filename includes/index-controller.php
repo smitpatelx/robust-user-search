@@ -1,4 +1,7 @@
 <?php
+namespace Rus\Includes;
+
+use Rus\Helper\RusHelper;
 /**
  * Index controller to handle home page for this plugin
  * 
@@ -6,7 +9,7 @@
  * @subpackage includes
  * @author     Smit Patel <smitpatel.dev@gmail.com>
  */
-class IndexController {
+class RusIndexController {
     private static $instance;
 
     /**
@@ -16,7 +19,7 @@ class IndexController {
      * @return null
      */
     public function __construct(){
-        RobustUserSearch::checkSecurity();
+        RusHelper::checkSecurity();
     }
 
     /**
@@ -46,7 +49,7 @@ class IndexController {
     }
 
     /**
-     * Adding plugin page to RobustUserSearch
+     * Adding main menu page to wordpress admin
      *
      * @param null
      * @return null
@@ -64,17 +67,29 @@ class IndexController {
      * @return null
      */
     public function indexOutput() {
-        $dir = explode("/", plugin_basename(__FILE__))[0];
-        wp_enqueue_style( 'rus-css', '/wp-content/plugins/'.$dir.'/dist/css/app.css', array(), null, false);
-        wp_enqueue_script( 'rus-manifest', '/wp-content/plugins/'.$dir.'/dist/js/manifest.js', array(), null, true);
-        wp_enqueue_script( 'rus-vendor', '/wp-content/plugins/'.$dir.'/dist/js/vendor.js', array(), null, true);
-        wp_enqueue_script( 'rus-app', '/wp-content/plugins/'.$dir.'/dist/js/app.js', array(), null, true);
+        wp_enqueue_style( 'rus-css', RUS_DIST_CSS_APP, array(), null, false);
+        wp_enqueue_script( 'rus-manifest', RUS_DIST_JS_MANIFEST, array(), null, true);
+        wp_enqueue_script( 'rus-vendor', RUS_DIST_JS_VENDOR, array(), null, true);
+        wp_enqueue_script( 'rus-app', RUS_DIST_JS_APP, array(), null, true);
         wp_localize_script('rus-app', 'rusN', array(
             'rootapiurl' => esc_url_raw(rest_url()),
             'nonce' => wp_create_nonce('wp_rest')
         ));
         
-        ?>
+        $allowed_html = array(
+            'link' => array(
+                'href' => array(),
+                'rel' => array(),
+            ),
+            'div' => array(
+                'id' => array(),
+                'class' => array(),
+                'style' => array()
+            ),
+            'app-layout' => array(),
+            'style' => array()
+        );
+        echo wp_kses('
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" rel="stylesheet">
         <div class="flex flex-wrap antialiased font-sans" style="width:100% !important;">
             <div class="w-full flex flex-wrap mt-2">
@@ -94,7 +109,7 @@ class IndexController {
                 background: #ffff !important;
             }
         </style>
-        <?php
+        ', $allowed_html);
     }
 
 }

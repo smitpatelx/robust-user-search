@@ -1,4 +1,7 @@
 <?php
+namespace Rus\Includes;
+
+use Rus\Helper\RusHelper;
 /**
  * Deactivation Hook
  * 
@@ -6,7 +9,7 @@
  * @subpackage includes
  * @author     Smit Patel <smitpatel.dev@gmail.com>
  */
-class Deactivation {
+class RusDeactivation {
 
     /**
      * Security Check & register deactivation hook
@@ -15,7 +18,7 @@ class Deactivation {
      * @return null
      */
     public function __construct($file){
-        RobustUserSearch::checkSecurity();
+        RusHelper::checkSecurity();
         register_deactivation_hook( $file, [$this, 'deactivate']);
     }
 

@@ -1,4 +1,7 @@
 <?php
+namespace Rus\Api;
+
+use Rus\Helper\RusHelper;
 /**
  * RestApi Class to get all roles
  * 
@@ -6,7 +9,7 @@
  * @subpackage api
  * @author     Smit Patel <smitpatel.dev@gmail.com>
  */
-class RestApi_GetRoles {
+class RusRestApiGetRoles {
 
     /**
      * Security Check & Registering rest route
@@ -15,6 +18,8 @@ class RestApi_GetRoles {
      * @return null
      */
     public function __construct(){
+        RusHelper::checkSecurity();
+        
         register_rest_route( 'rsu/v1', '/roles', array(
             'methods' => 'GET',
             'callback' => [$this,'processRequest'],
@@ -30,13 +35,13 @@ class RestApi_GetRoles {
      * @param null 
      * @return json $data[]
      */
-    public function processRequest(WP_REST_Request $request) {
+    public function processRequest(\WP_REST_Request $request) {
 
-        RobustUserSearch::checkSecurity();
+        RusHelper::checkSecurity();
 
-        $check_nonce = $this->checkNonce($request);
+        $check_nonce = RusHelper::checkNonce($request);
         if(!$check_nonce){
-            return new WP_REST_Response(['status_code' => 400, 'message' => "You dont have permission to view all roles : ".wp_verify_nonce( $_REQUEST['X-WP-Nonce'], 'edit-users')], 400);
+            return new \WP_REST_Response(['status_code' => 400, 'message' => "You dont have permission to view all roles"], 400);
         }
 
         global $wp_roles;
@@ -44,17 +49,9 @@ class RestApi_GetRoles {
         $all_roles = $wp_roles->roles;
         $editable_roles = apply_filters('editable_roles', $all_roles);
 
-        return $editable_roles;
+        return new \WP_REST_Response($editable_roles, 200);
     }
 
-    /** 
-     * Check Nonce
-     * 
-     * @param WP_REST_Request $request
-     * @return boolean
-     */
-    private function checkNonce($request){
-        return wp_verify_nonce($request->get_header('X-WP-Nonce'), 'wp_rest');
-    }
+    
 
 }

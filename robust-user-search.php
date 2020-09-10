@@ -12,14 +12,24 @@
  * License:             MIT
  * License URI:         https://github.com/smitpatelx/robust_user_search/blob/master/LICENSE
  */
+namespace Rus;
 
+use Rus\Helper\RusHelper;
+
+use Rus\Includes\RusActivation;
+use Rus\Includes\RusDeactivation;
+
+use Rus\Api\RusRestApiGetAllUsers;
+use Rus\Api\RusRestApiPutEditUser;
+use Rus\Api\RusRestApiGetSingleUser;
+use Rus\Api\RusRestApiGetRoles;
 /**
  * Robust User Search Main Class
  * 
  * @package    robust-user-search
  * @author     Smit Patel <smitpatel.dev@gmail.com>
  */
-class RobustUserSearch {
+class Rus {
     
     /**
      * Security Check & call required functions
@@ -28,26 +38,15 @@ class RobustUserSearch {
      * @return null
      */
     public function __construct(){
-        $this->checkSecurity();
-
-        require_once(__DIR__."/constants.php");
+        $this->includingFile();
+        
+        RusHelper::checkSecurity();
         new Constants();
 
         $this->checkWpVersion();
-        $this->includingFile();
         $this->registerHooks();
         $this->registerAllPages();
         $this->registerRestApi();
-    }
-
-    /**
-     * Check if the constant ABSPATH is defined
-     *
-     * @param null
-     * @return null
-     */
-    public static function checkSecurity(){
-        defined( 'ABSPATH' ) || die( 'Cheatin&#8217; uh?' );
     }
 
     /**
@@ -57,7 +56,7 @@ class RobustUserSearch {
      * @return none
      */
     protected function checkWpVersion(){
-        if(!empty(WP_CURRENT_VERSION) && version_compare( WP_CURRENT_VERSION, RUS_MINIMUM_WP_REQUIRED_VERSION, '<')){
+        if(!empty(RUS_WP_CURRENT_VERSION) && version_compare( RUS_WP_CURRENT_VERSION, RUS_MINIMUM_WP_REQUIRED_VERSION, '<')){
             add_action('admin_notices', function() {
                 echo '<div class="notice notice-error is-dismissible">';
                 echo '<p>Robust User Search only supports Wordpress version greater than '.RUS_MINIMUM_WP_REQUIRED_VERSION.' , Your current version is :<b>'.$wp_version.'</b></p>';
@@ -74,15 +73,18 @@ class RobustUserSearch {
      * @return none
      */
     protected function includingFile(){
-        require_once(RUS_DIRECTORY.'/includes/activation.php');
-        require_once(RUS_DIRECTORY.'/includes/deactivate.php');
-        require_once(RUS_DIRECTORY.'/includes/index-controller.php');
-        require_once(RUS_DIRECTORY.'/includes/settings-controller.php');
+        require_once(__DIR__."/constants.php");
 
-        include_once(RUS_DIRECTORY.'/api/list-all-users.php');
-        include_once(RUS_DIRECTORY.'/api/list-single-user.php');
-        include_once(RUS_DIRECTORY.'/api/list-all-roles.php');
-        include_once(RUS_DIRECTORY.'/api/edit-single-user.php');
+        require_once(__DIR__.'/helper/Helper.php');
+        require_once(__DIR__.'/includes/activation.php');
+        require_once(__DIR__.'/includes/deactivate.php');
+        require_once(__DIR__.'/includes/index-controller.php');
+        require_once(__DIR__.'/includes/settings-controller.php');
+
+        include_once(__DIR__.'/api/list-all-users.php');
+        include_once(__DIR__.'/api/list-single-user.php');
+        include_once(__DIR__.'/api/list-all-roles.php');
+        include_once(__DIR__.'/api/edit-single-user.php');
     }
 
     /**
@@ -92,8 +94,8 @@ class RobustUserSearch {
      * @return none
      */
     protected function registerHooks(){
-        new Activation(__FILE__);
-        new Deactivation(__FILE__);
+        new RusActivation(__FILE__);
+        new RusDeactivation(__FILE__);
     }
 
     /**
@@ -103,9 +105,9 @@ class RobustUserSearch {
      * @return none
      */
     protected function registerAllPages(){
-        add_action('admin_head', ['IndexController', 'customFavicon']);
-        add_action('admin_menu', ['IndexController', 'instance'], 99);
-        add_action('admin_menu', ['SettingsController', 'instance'], 99);
+        add_action('admin_head', ['Rus\Includes\RusIndexController', 'customFavicon']);
+        add_action('admin_menu', ['Rus\Includes\RusIndexController', 'instance'], 99);
+        add_action('admin_menu', ['Rus\Includes\RusSettingsController', 'instance'], 99);
     }
 
     /**
@@ -116,16 +118,16 @@ class RobustUserSearch {
      */
     protected function registerRestApi(){
         add_action( 'rest_api_init', function () {
-            new RestApi_GetAllUsers();
+            new RusRestApiGetAllUsers();
 
-            new RestApi_PutEditUser();
+            new RusRestApiPutEditUser();
 
-            new RestApi_GetSingleUser();
+            new RusRestApiGetSingleUser();
             
-            new RestApi_GetRoles();
+            new RusRestApiGetRoles();
         });
     }
 
 }
 
-new RobustUserSearch();
+new Rus();

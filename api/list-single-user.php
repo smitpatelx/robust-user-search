@@ -1,4 +1,7 @@
 <?php
+namespace Rus\Api;
+
+use Rus\Helper\RusHelper;
 /**
  * RestApi Class to get single users
  * 
@@ -6,7 +9,7 @@
  * @subpackage api
  * @author     Smit Patel <smitpatel.dev@gmail.com>
  */
-class RestApi_GetSingleUser {
+class RusRestApiGetSingleUser {
     
     /**
      * Security Check & Registering rest route
@@ -15,7 +18,7 @@ class RestApi_GetSingleUser {
      * @return null
      */
     public function __construct(){
-        RobustUserSearch::checkSecurity();
+        RusHelper::checkSecurity();
 
         register_rest_route( 'rsu/v1', '/user/(?P<id>\d+)', array(
             'methods' => 'GET',
@@ -32,44 +35,38 @@ class RestApi_GetSingleUser {
      * @param string $id
      * @return json $data[]
      */
-    function processRequest(WP_REST_Request $request){
+    function processRequest(\WP_REST_Request $request){
+
+        $check_nonce = RusHelper::checkNonce($request);
+        if(!$check_nonce){
+            return new \WP_REST_Response(['status_code' => 400, 'message' => "You dont have permission to view all roles"], 400);
+        }
+        
         extract($request->get_params());
         $DBRecord = array();
 
         $user = get_user_by('ID', $id);
         $i=0;
 
-        $DBRecord['roles']                  = self::filterNull($user->roles);
-        $DBRecord['username']               = self::filterNull($user->user_login);
-        $DBRecord['id']                     = self::filterNull($user->ID);
-        $DBRecord['first_name']             = self::filterNull($user->first_name);
-        $DBRecord['last_name']              = self::filterNull($user->last_name);
-        $DBRecord['user_registered']        = self::filterNull($user->user_registered);
-        $DBRecord['email']                  = self::filterNull($user->user_email);
+        $DBRecord['roles']                  = RusHelper::filterNull($user->roles);
+        $DBRecord['username']               = RusHelper::filterNull($user->user_login);
+        $DBRecord['id']                     = RusHelper::filterNull($user->ID);
+        $DBRecord['first_name']             = RusHelper::filterNull($user->first_name);
+        $DBRecord['last_name']              = RusHelper::filterNull($user->last_name);
+        $DBRecord['user_registered']        = RusHelper::filterNull($user->user_registered);
+        $DBRecord['email']                  = RusHelper::filterNull($user->user_email);
 
         $UserData = get_user_meta( $user->ID );  
-        $DBRecord['billing_company']        = self::filterNull($UserData['billing_company'][0]);
-        $DBRecord['billing_address_1']      = self::filterNull($UserData['billing_address_1'][0]);
-        $DBRecord['billing_city']           = self::filterNull($UserData['billing_city'][0]);
-        $DBRecord['billing_state']          = self::filterNull($UserData['billing_state'][0]);
-        $DBRecord['billing_postcode']       = self::filterNull($UserData['billing_postcode'][0]);
-        $DBRecord['billing_country']        = self::filterNull($UserData['billing_country'][0]);
-        $DBRecord['billing_phone']          = self::filterNull($UserData['billing_phone'][0]);
+        $DBRecord['billing_company']        = RusHelper::filterNull($UserData['billing_company'][0]);
+        $DBRecord['billing_address_1']      = RusHelper::filterNull($UserData['billing_address_1'][0]);
+        $DBRecord['billing_city']           = RusHelper::filterNull($UserData['billing_city'][0]);
+        $DBRecord['billing_state']          = RusHelper::filterNull($UserData['billing_state'][0]);
+        $DBRecord['billing_postcode']       = RusHelper::filterNull($UserData['billing_postcode'][0]);
+        $DBRecord['billing_country']        = RusHelper::filterNull($UserData['billing_country'][0]);
+        $DBRecord['billing_phone']          = RusHelper::filterNull($UserData['billing_phone'][0]);
 
-        return new WP_REST_Response($DBRecord, 200);
+        return new \WP_REST_Response($DBRecord, 200);
     }
 
-    /**
-     * Filter null values
-     *
-     * @param mixed $val
-     * @return json $data[]
-     */
-    protected function filterNull($val){
-        if($val===NULL) {
-            return "";
-        } else {
-            return $val;
-        }
-    }
+    
 }

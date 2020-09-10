@@ -1,4 +1,7 @@
 <?php
+namespace Rus\Api;
+
+use Rus\Helper\RusHelper;
 /**
  * RestApi Class to get all users
  * 
@@ -6,7 +9,7 @@
  * @subpackage api
  * @author     Smit Patel <smitpatel.dev@gmail.com>
  */
-class RestApi_GetAllUsers {
+class RusRestApiGetAllUsers {
 
     /**
      * Security Check & Registering rest route
@@ -15,7 +18,7 @@ class RestApi_GetAllUsers {
      * @return null
      */
     public function __construct(){
-        RobustUserSearch::checkSecurity();
+        RusHelper::checkSecurity();
 
         register_rest_route( 'rsu/v1', '/all', array(
             'methods' => 'GET',
@@ -32,7 +35,13 @@ class RestApi_GetAllUsers {
      * @param string $role
      * @return json $data[]
      */
-    function processRequest(WP_REST_Request $request){
+    function processRequest(\WP_REST_Request $request){
+
+        $check_nonce = RusHelper::checkNonce($request);
+        if(!$check_nonce){
+            return new \WP_REST_Response(['status_code' => 400, 'message' => "You dont have permission to view all roles"], 400);
+        }
+        
         extract($request->get_params());
         $DBRecord = array();
         $args = array(
@@ -69,7 +78,7 @@ class RestApi_GetAllUsers {
             $DBRecord[$i]['billing_phone']          = self::filterNull($UserData['billing_phone'][0]);
             $i++; 
         }
-        return new WP_REST_Response($DBRecord, 200);
+        return new \WP_REST_Response($DBRecord, 200);
     }
 
     /**
