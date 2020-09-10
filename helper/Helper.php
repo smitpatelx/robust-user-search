@@ -25,7 +25,7 @@ namespace Rus\Helper;
      * @param mixed $val
      * @return json $data[]
      */
-    public function filterNull($val){
+    public static function filterNull($val){
         if($val===NULL) {
             return "";
         } else {
@@ -39,7 +39,7 @@ namespace Rus\Helper;
      * @param WP_REST_Request $request
      * @return boolean
      */
-    public function checkNonce($request){
+    public static function checkNonce($request){
         return wp_verify_nonce($request->get_header('X-WP-Nonce'), 'wp_rest');
     }
  }
