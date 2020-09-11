@@ -93,10 +93,9 @@ To begin making your WordPress site more productive:
 After installing plugin, you are good to go. No unnecessary changes need to made.
 
 == Screenshots ==
-
-1. https://github.com/smitpatelx/robust-user-search/raw/master/assets/main-page.png
-2. https://github.com/smitpatelx/robust-user-search/raw/master/assets/edit-component.png
-3. https://github.com/smitpatelx/robust-user-search/raw/master/assets/settings-page.png
+1. Plugin Home Page
+2. Edit users
+3. Settings Page
 
 == Frequently Asked Questions ==
 Check the following page for F.A.Q (see the faq section):
