@@ -10,8 +10,15 @@ License: GPLv3
 A comprehensive, user-friendly, live user search & edit plugin for your site.
 
 == Privacy Policy ==
+
 This plugin doesn't collect any information regrading any user or any other data from your site. All the source code can be found on
 github if you want to dig into how this plugin is designed.
+
+== Screenshots ==
+
+1. Plugin Home Page
+2. Edit users
+3. Settings Page
 
 == Description ==
 = A COMPREHENSIVE, EASY TO USE, STABLE AND WELL SUPPORTED WORDPRESS USER SEARCH PLUGIN =
@@ -91,11 +98,6 @@ To begin making your WordPress site more productive:
 == Usage ==
 
 After installing plugin, you are good to go. No unnecessary changes need to made.
-
-== Screenshots ==
-1. Plugin Home Page
-2. Edit users
-3. Settings Page
 
 == Frequently Asked Questions ==
 Check the following page for F.A.Q (see the faq section):
