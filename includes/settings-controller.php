@@ -41,7 +41,7 @@ class RusSettingsController {
      */
     public function register() {
         //add_submenu_page( string $parent_slug, string $page_title, string $menu_title, string $capability, string $menu_slug, callable $function = '', int $position = null )
-        add_submenu_page( 'rus', 'Settings', 'Settings', RUS_CAPABILITY, 'rus-settings', array( $this, 'settingsOutput'), );
+        add_submenu_page( 'rus', 'Settings', 'Settings', RUS_CAPABILITY, 'rus-settings', array( $this, 'settingsOutput') );
     }
 
     /**
