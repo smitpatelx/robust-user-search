@@ -3,7 +3,7 @@ Contributors: smitpatelx
 Donate link: https://apps.smitpatelx.com/donate
 Tags: Ajax, Axios, Robust Search, User Management, Edit User, Update, smitpatelx, Vue, WooCommerce, Axios
 Requires at least: 5.2
-Tested up to: 5.5.1
+Tested up to: 5.6
 Stable tag: 1.0.4
 License: GPLv3
 
@@ -110,6 +110,9 @@ https://smitpatelx.com/apps/robust-user-search
 None
 
 == Changelog ==
+
+= 1.0.5 =
+- Minor bug fix and License update to gpl-v2-only.
 
 = 1.0.4 =
 - Plugin transition from functional programming to Object-Oriented programming
