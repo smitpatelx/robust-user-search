@@ -55,7 +55,7 @@
                 </div>
             </div>
         </div>
-        <div :class="editing_status ? 'popup-container' : 'hidden'" class="w-full -ml-4 min-h-full flex flex-wrap justify-center items-start pt-40 absolute top-0 overflow-hidden">
+        <div :class="editing_status ? 'popup-container' : 'hidden'" class="w-full -ml-4 min-h-screen flex flex-wrap justify-center items-start pt-40 absolute top-0 overflow-hidden">
             <zoom-center-transition>
                 <EditSinglePost :edit_id="edit_id" v-if="editing_status" @close_this="close_editing"/>
             </zoom-center-transition>
