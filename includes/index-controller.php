@@ -66,6 +66,7 @@ class RusIndexController {
             25,
         ); 
 
+        // Icon styling for sidebar menu
         $allowed_html = array(
             'style' => array(),
         );
@@ -75,10 +76,12 @@ class RusIndexController {
                 --rus-icon-height: 2.1rem !important;
                 --rus-icon-width: 2.1rem !important;
             }
+
             #toplevel_page_rus div.wp-menu-image {
                 position: relative !important;
                 padding: 0px !important;
             }
+
             #toplevel_page_rus img{
                 position: absolute !important;
                 top: 50% !important;
