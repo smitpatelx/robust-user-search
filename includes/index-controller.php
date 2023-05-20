@@ -65,6 +65,19 @@ class RusIndexController {
             RUS_MENU_ICON_URL,
             25,
         ); 
+
+        $allowed_html = array(
+            'style' => array(),
+        );
+        echo wp_kses('
+        <style>
+            #toplevel_page_rus  img{
+                height: 2.1rem;
+                width: 2.1rem;
+                margin-top: 2px !important;
+            }
+        </style>
+        ', $allowed_html);
     }
 
 
@@ -119,12 +132,6 @@ class RusIndexController {
 
             #wpfooter{
                 display: none !important;
-            }
-
-            .toplevel_page_rus img{
-                height: 2.1rem;
-                width: 2.1rem;
-                margin-top: 2px !important;
             }
 
             body{
