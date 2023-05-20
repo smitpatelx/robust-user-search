@@ -65,6 +65,39 @@ class RusIndexController {
             RUS_MENU_ICON_URL,
             25,
         ); 
+
+        // Icon styling for sidebar menu
+        $allowed_html = array(
+            'style' => array(),
+        );
+        echo wp_kses('
+        <style>
+            :root {
+                --rus-icon-height: 2.1rem !important;
+                --rus-icon-width: 2.1rem !important;
+            }
+
+            #toplevel_page_rus div.wp-menu-image {
+                position: relative !important;
+                padding: 0px !important;
+            }
+
+            #toplevel_page_rus img{
+                position: absolute !important;
+                top: 50% !important;
+                left: 50% !important;
+                transform: translate(-50%, -50%) !important;
+                height: var(--rus-icon-height);
+                min-height: var(--rus-icon-height);
+                max-height: var(--rus-icon-height);
+                width: var(--rus-icon-width);
+                min-width: var(--rus-icon-width);
+                max-width: var(--rus-icon-width);
+                padding: 0px !important;
+                margin: 0.3rem 0rem 0rem 0rem !important;
+            }
+        </style>
+        ', $allowed_html);
     }
 
 
@@ -116,9 +149,11 @@ class RusIndexController {
             .error, .settings-error, .notice{
                 display:none !important;
             }
+
             #wpfooter{
                 display: none !important;
             }
+
             body{
                 background: #ffff !important;
             }
