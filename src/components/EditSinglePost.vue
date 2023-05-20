@@ -1,5 +1,9 @@
 <template>
-    <div class="w-84 bg-white shadow-inner rounded-lg py-4 px-6" >
+    <div
+        class="w-84 bg-white shadow-inner rounded-lg py-4 px-6 z-10"
+        @blur.capture="doNoting()"
+        @click.capture="doNoting()"
+    >
         <form @keydown.esc="close()" @submit.prevent="save()" @reset.prevent="reset()" class="w-full flex flex-wrap justify-between items-center">
             <p class="text-lg text-teal-600">Editing Customer id: <span class="font-medium">{{edit_id}}</span></p>
             <div class="flex flex-wrap items-center justify-center">
@@ -187,7 +191,10 @@ export default {
         setTimeout(()=>{
             document.getElementById("first_name").focus();
         },200);
-    }
+    },
+    doNoting(){
+        // Do nothing
+    },
 }
 </script>
 <style lang="scss">

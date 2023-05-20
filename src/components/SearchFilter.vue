@@ -55,10 +55,20 @@
                 </div>
             </div>
         </div>
-        <div :class="editing_status ? 'popup-container' : 'hidden'" class="w-full -ml-4 min-h-screen flex flex-wrap justify-center items-start pt-40 absolute top-0 overflow-hidden">
-            <zoom-center-transition>
-                <EditSinglePost :edit_id="edit_id" v-if="editing_status" @close_this="close_editing"/>
-            </zoom-center-transition>
+        <div
+            v-if="editing_status"
+            class="w-full -ml-4 min-h-screen absolute top-0 overflow-hidden"
+        >
+            <div class="w-full h-full min-h-screen relative flex flex-wrap items-center justify-center">
+                <zoom-center-transition>
+                    <EditSinglePost :edit_id="edit_id" v-if="editing_status" @close_this="close_editing"/>
+                </zoom-center-transition>
+                
+                <div
+                    class="w-full h-full z-0 absolute top-0 left-0 bg-black opacity-50"
+                    @click.capture="close_editing(false)"
+                />
+            </div>
         </div>
     </div>
 </template>
@@ -219,10 +229,6 @@ export default {
 }
 </script>
 <style lang="scss">
-    .popup-container{
-        background: rgba(0, 0, 0, 0.322);
-    }
-
     .filter-blur{
         filter: blur(2px);
     }
