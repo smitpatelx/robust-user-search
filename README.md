@@ -1,5 +1,5 @@
 <p align="center">
-  <img align="center" height="80" width="80" src="https://github.com/smitpatelx/robust_user_search/blob/master/assets/robust_bg_white.svg" alt="Robust" />
+  <img align="center" height="80" width="80" src="https://github.com/smitpatelx/robust_user_search/blob/main/assets/robust_bg_white.svg" alt="Robust" />
 </p>
 <h1 align="center">Robust User Search</h1>
 
@@ -26,13 +26,13 @@
 + Security & Auth features added on every custom route.
 
 <p align="center">
-  <img align="center" width="80%" src="https://github.com/smitpatelx/robust_user_search/blob/master/assets/main-page.png" alt="Robust" />
+  <img align="center" width="80%" src="https://github.com/smitpatelx/robust_user_search/blob/main/assets/main-page.png" alt="Robust" />
 </p>
 <p align="center">
-  <img align="center" width="80%" src="https://github.com/smitpatelx/robust_user_search/blob/master/assets/edit-component.png" alt="Robust" />
+  <img align="center" width="80%" src="https://github.com/smitpatelx/robust_user_search/blob/main/assets/edit-component.png" alt="Robust" />
 </p>
 <p align="center">
-  <img align="center" width="80%" src="https://github.com/smitpatelx/robust_user_search/blob/master/assets/settings-page.png" alt="Robust" />
+  <img align="center" width="80%" src="https://github.com/smitpatelx/robust_user_search/blob/main/assets/settings-page.png" alt="Robust" />
 </p>
 
 ### Supported Wordpress versions

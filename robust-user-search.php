@@ -10,7 +10,7 @@
  * Requires at least:   5.2
  * Requires PHP:        7.1
  * License:             gpl-v2-only
- * License URI:         https://github.com/smitpatelx/robust_user_search/blob/master/LICENSE
+ * License URI:         https://github.com/smitpatelx/robust_user_search/blob/main/LICENSE
  */
 namespace Rus;
 
