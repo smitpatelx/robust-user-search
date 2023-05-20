@@ -116,9 +116,17 @@ class RusIndexController {
             .error, .settings-error, .notice{
                 display:none !important;
             }
+
             #wpfooter{
                 display: none !important;
             }
+
+            .toplevel_page_rus img{
+                height: 2.1rem;
+                width: 2.1rem;
+                margin-top: 2px !important;
+            }
+
             body{
                 background: #ffff !important;
             }

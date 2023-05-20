@@ -165,6 +165,12 @@ class RusSettingsController {
                 box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.5) !important;
             }
 
+            .toplevel_page_rus img{
+                height: 2.1rem;
+                width: 2.1rem;
+                margin-top: 2px !important;
+            }
+
             html body #wpwrap #wpcontent #rusSettings{
                 font-family: Inter, Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji !important;
                 line-height: 1.5 !important;
