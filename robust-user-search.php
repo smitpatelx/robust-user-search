@@ -6,7 +6,7 @@
  * Text Domain:         robust-user-search
  * Author:              Smit Patel
  * Author URI:          https://smitpatelx.com
- * Version:             1.0.5
+ * Version:             1.0.6
  * Requires at least:   5.2
  * Requires PHP:        7.1
  * License:             gpl-v2-only

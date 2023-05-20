@@ -3,8 +3,8 @@ Contributors: smitpatelx
 Donate link: https://apps.smitpatelx.com/donate
 Tags: Ajax, Axios, Robust Search, User Management, Edit User, Update, smitpatelx, Vue, WooCommerce, Axios
 Requires at least: 5.2
-Tested up to: 5.6
-Stable tag: 1.0.4
+Tested up to: 6.2.1
+Stable tag: 1.0.6
 License: GPLv3
 
 A comprehensive, user-friendly, live user search & edit plugin for your site.
@@ -110,6 +110,11 @@ https://smitpatelx.com/apps/robust-user-search
 None
 
 == Changelog ==
+
+= 1.0.6 =
+- Fixed overlay height.
+- Now clicking on overlay will close the menu.
+- Fixed icon spacing for narrow screen.
 
 = 1.0.5 =
 - Minor bug fix and License update to gpl-v2-only.
