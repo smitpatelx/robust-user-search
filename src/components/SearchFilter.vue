@@ -31,11 +31,11 @@
                         </span>
                         <span class="truncate pl-4 pr-2 py-2 text-left border-r border-gray-400 select-all col-span-3" :class="user.email ? '' : 'text-red-500'">{{user.email}}</span>
                         <span class="truncate pl-4 pr-2 py-2 text-left border-r border-gray-400 select-all capitalize col-span-2" :class="user.billing_company ? '' : 'text-red-500'">{{user.billing_company || 'Empty !!'}}</span>
-                        <span class="truncate pl-4 pr-2 py-2 text-left grid grid-flow-col justify-between items-center capitalize select-none col-span-3">
+                        <span class="truncate pl-4 pr-2 py-2 text-left grid grid-flow-col justify-between items-center capitalize select-none col-span-3 gap-x-2">
                             <div class="flex flex-wrap">
                                 <span v-for="(rl,x) in user.roles" :key='x' class="rounded-full bg-teal-400 text-white font-medium py-2 px-3 text-sm ml-2 my-1 leading-none"> {{rl | filter_role}}</span>
                             </div>
-                            <div class="flex flex-wrap items-center justify-between">
+                            <div class="flex flex-nowrap gap-x-1 items-center justify-between">
                                 <a :href="'/wp-admin/user-edit.php?user_id='+user.id+'&wp_http_referer=%2Fwp-admin%2Fusers.php'"  target="_blank" class="text-teal-700 hover:text-gray-500 focus:text-gray-500 focus:outline-none select-none">
                                     <svg class="w-5 h-5 fill-current inline-block mr-2 focus:outline-none select-none" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M2.1 12a17 17 0 002.5 3.3c1.8 2 4.3 3.7 7.4 3.7 3.1 0 5.6-1.8 7.4-3.7a18.7 18.7 0 002.5-3.3 17 17 0 00-2.5-3.3C17.6 6.7 15.1 5 12 5 8.9 5 6.4 6.8 4.6 8.7A18.7 18.7 0 002.1 12zM23 12l.9-.4a10.6 10.6 0 00-.8-1.4L21 7.3c-2-2-5-4.3-8.9-4.3-3.9 0-6.9 2.2-8.9 4.3a20.7 20.7 0 00-3 4.2l.9.5-.9-.4a1 1 0 000 .8L1 12l-.9.4a8.3 8.3 0 00.2.4 18.5 18.5 0 002.8 3.9c2 2 5 4.3 8.9 4.3 3.9 0 6.9-2.2 8.9-4.3a20.7 20.7 0 003-4.2L23 12zm0 0l.9.4a1 1 0 000-.8l-.9.4z" clip-rule="evenodd"/><path fill-rule="evenodd" d="M12 10a2 2 0 100 4 2 2 0 000-4zm-4 2a4 4 0 118 0 4 4 0 01-8 0z" clip-rule="evenodd"/></svg>
                                 </a>
