@@ -110,8 +110,6 @@ class RusIndexController {
     public function indexOutput() {
         wp_enqueue_style( 'rus-css', RUS_DIST_CSS_APP, array(), null, false);
         wp_enqueue_style( 'rus-fonts', RUS_FONTS, array(), null, false);
-        wp_enqueue_script( 'rus-manifest', RUS_DIST_JS_MANIFEST, array(), null, true);
-        wp_enqueue_script( 'rus-vendor', RUS_DIST_JS_VENDOR, array(), null, true);
         wp_enqueue_script( 'rus-app', RUS_DIST_JS_APP, array(), null, true);
         wp_localize_script('rus-app', 'rusN', array(
             'rootapiurl' => esc_url_raw(rest_url()),
