@@ -20,7 +20,7 @@ class RusRestApiGetRoles {
     public function __construct(){
         RusHelper::checkSecurity();
         
-        register_rest_route( 'rsu/v1', '/roles', array(
+        register_rest_route( 'rus/v1', '/roles', array(
             'methods' => 'GET',
             'callback' => [$this,'processRequest'],
             'permission_callback' => function($request){	  

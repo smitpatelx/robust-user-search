@@ -20,7 +20,7 @@ class RusRestApiPutEditUser {
     public function __construct(){
         RusHelper::checkSecurity();
 
-        register_rest_route( 'rsu/v1', '/user/(?P<id>\d+)', array(
+        register_rest_route( 'rus/v1', '/user/(?P<id>\d+)', array(
             'methods' => 'PUT',
             'callback' => [$this,'processRequest'],
             'permission_callback' => function($request){	  

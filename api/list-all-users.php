@@ -20,7 +20,7 @@ class RusRestApiGetAllUsers {
     public function __construct(){
         RusHelper::checkSecurity();
 
-        register_rest_route( 'rsu/v1', '/all', array(
+        register_rest_route( 'rus/v1', '/all', array(
             'methods' => 'GET',
             'callback' => [$this,'processRequest'],
             'permission_callback' => function($request){	  
