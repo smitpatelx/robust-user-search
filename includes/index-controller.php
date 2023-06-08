@@ -138,11 +138,9 @@ class RusIndexController {
             )
         );
         echo wp_kses('
-        <div class="flex flex-wrap antialiased font-sans" style="width:100% !important;">
+        <div class="flex flex-wrap" style="width:100% !important;">
             <div class="w-full flex flex-wrap mt-2">
-                <div id="vueApp" class="w-full">
-                    <app-layout/>
-                </div>
+                <div id="vueApp" class="w-full"/>
             </div>
         </div>
         <style>
