@@ -103,7 +103,7 @@ export default {
             this.$emit('close_this', false);
         },
         async init(){
-            await axios.get(`/wp-json/rsu/v1/user/${this.edit_id}`,{
+            await axios.get(`/wp-json/rus/v1/user/${this.edit_id}`,{
                 headers: {
                     'X-WP-Nonce':rusN.nonce
                 }
@@ -130,7 +130,7 @@ export default {
         },
         async save(){
             this.loading_data = true;
-            axios.put(`/wp-json/rsu/v1/user/${this.edit_id}`,{
+            axios.put(`/wp-json/rus/v1/user/${this.edit_id}`,{
                 first_name: this.first_name,
                 last_name: this.last_name,
                 email: this.email,

@@ -93,7 +93,7 @@ export default {
     methods:{
         async getAllUsers(){
             this.loading_view = true;
-            await axios.get('/wp-json/rsu/v1/all',{
+            await axios.get('/wp-json/rus/v1/all',{
                 headers: {
                     'X-WP-Nonce':rusN.nonce
                 }
@@ -116,7 +116,7 @@ export default {
         },
         async getNewRoles(){
             this.loading_view = true;
-            await axios.get('/wp-json/rsu/v1/all',{
+            await axios.get('/wp-json/rus/v1/all',{
                 params:{
                     role: this.currentRole
                 },
@@ -133,7 +133,7 @@ export default {
             });
         },
         async getAllRoles(){
-            await axios.get('/wp-json/rsu/v1/roles',{
+            await axios.get('/wp-json/rus/v1/roles',{
                 headers: {
                     'X-WP-Nonce':rusN.nonce
                 }
@@ -181,7 +181,7 @@ export default {
             if(this.currentRole!=='') {
                 this.getNewRoles();
             } else {
-                await axios.get('/wp-json/rsu/v1/all',{
+                await axios.get('/wp-json/rus/v1/all',{
                     headers: {
                         'X-WP-Nonce':rusN.nonce
                     }
