@@ -27,7 +27,5 @@ class Constants {
 
         define('RUS_DIST_CSS_APP', plugins_url('/dist/assets/index.css', __FILE__));
         define('RUS_DIST_JS_APP', plugins_url('/dist/assets/index.js', __FILE__));
-        define('RUS_FONTS', 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap');
     }
-
 }

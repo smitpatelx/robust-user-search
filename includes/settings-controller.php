@@ -59,7 +59,6 @@ class RusSettingsController {
         $editable_roles = apply_filters('editable_roles', $all_roles);
 
         wp_enqueue_style( 'rus-css', RUS_DIST_CSS_APP, array(), null, false);
-        wp_enqueue_style( 'rus-fonts', RUS_FONTS, array(), null, false);
 
         if($_SERVER["REQUEST_METHOD"] == "POST") {
             $errors=[];
