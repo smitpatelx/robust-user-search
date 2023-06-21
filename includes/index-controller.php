@@ -41,9 +41,9 @@ class RusIndexController {
      */
     public static function customFavicon() {
         echo "<style>
-            .toplevel_page_rus img{
-                margin-top:0px !important;
-                padding-top:5px !important;
+            .toplevel_page_rus #adminmenu .wp-menu-image img{
+                margin-top: 0px !important;
+                padding-top: 5px !important;
             }
             </style>"; 
     }
@@ -112,7 +112,7 @@ class RusIndexController {
         wp_enqueue_script( 'rus-app', RUS_DIST_JS_APP, array(), null, true);
         wp_localize_script('rus-app', 'rusN', array(
             'rootapiurl' => esc_url_raw(rest_url()),
-            'nonce' => wp_create_nonce('wp_rest'),
+            'nonce' => wp_create_nonce('wp_rest')
         ));
         
         $allowed_html = array(
