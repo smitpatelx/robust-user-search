@@ -33,6 +33,10 @@ class RusRestApiGetAllUsers {
      * List all users
      *
      * @param string $role
+     * @param int $page
+     * @param int $page_size
+     * @param string|null $sort_by
+     * @param string $search_text
      * @return json $data[]
      */
     function processRequest(\WP_REST_Request $request){
@@ -41,15 +45,13 @@ class RusRestApiGetAllUsers {
         extract($request->get_params());
         $DBRecord = array();
         $args = array(
-            'orderby' => 'first_name',
-            'order'   => 'ASC'
+            'orderby' => $sort !== null ? $sort_by : 'user_registered',
+            'order'   => $sort,
         );
         if(isset($role)){
-            $args = array(
-                'orderby' => 'first_name',
-                'order'   => 'ASC',
-                'role'    => $role
-            );
+            array_push($args, array(
+                'role' => $role,
+            ));
         }
         $users = get_users( $args );
         $i=0;
