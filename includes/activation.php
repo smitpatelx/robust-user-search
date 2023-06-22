@@ -17,9 +17,9 @@ class RusActivation {
      * @param null
      * @return null
      */
-    public function __construct($file){
+    public function __construct(){
         RusHelper::checkSecurity();
-        register_activation_hook( $file, [$this, 'activate']);
+        register_activation_hook(RUS_FILE_PATH, [$this, 'activate']);
     }
 
     /**
