@@ -36,11 +36,7 @@ class RusRestApiGetAllUsers {
      * @return json $data[]
      */
     function processRequest(\WP_REST_Request $request){
-
-        $check_nonce = RusHelper::checkNonce($request);
-        if(!$check_nonce){
-            return new \WP_REST_Response(['status_code' => 400, 'message' => "You dont have permission to view all roles"], 400);
-        }
+        RusHelper::checkNonceApi($request);
         
         extract($request->get_params());
         $DBRecord = array();
