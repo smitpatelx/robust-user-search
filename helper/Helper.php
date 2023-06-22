@@ -42,4 +42,17 @@ namespace Rus\Helper;
     public static function checkNonce($request){
         return wp_verify_nonce($request->get_header('X-WP-Nonce'), 'wp_rest');
     }
+
+    /**
+     * Check Nonce for API
+     * 
+     * @param WP_REST_Request $request
+     * @return null|json  $data[]
+     */
+    public static function checkNonceApi($request){
+        if(!self::checkNonce($request)){
+            return new \WP_REST_Response(['status_code' => 400, 'message' => "You dont have permission to do this action."], 400);
+        }
+        return null;
+    }
  }
