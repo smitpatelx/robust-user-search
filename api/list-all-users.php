@@ -47,12 +47,9 @@ class RusRestApiGetAllUsers {
         $args = array(
             'orderby' => $sort !== null ? $sort_by : 'user_registered',
             'order'   => $sort,
+            'role' => isset($role) ? $role : null,
         );
-        if(isset($role)){
-            array_push($args, array(
-                'role' => $role,
-            ));
-        }
+
         $users = get_users( $args );
         $i=0;
 
