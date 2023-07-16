@@ -32,7 +32,6 @@ class RusRestApiGetAllUsers {
     /**
      * List all users
      *
-     * @param string $role
      * @param int $page
      * @param int $page_size
      * @param string|null $sort_by
@@ -43,6 +42,8 @@ class RusRestApiGetAllUsers {
         RusHelper::checkNonceApi($request);
         
         extract($request->get_params());
+        
+        global $wpdb;
         $DBRecord = [];
 
         // Pagination
@@ -51,25 +52,32 @@ class RusRestApiGetAllUsers {
         $offset = ($page - 1) * $page_size;
 
         // Sorting
-        $sort_order = isset($sort_order) ? $sort_order : 'asc';
-        $sort_by = self::filterIsSetNull($sort_by);
+        $sort_order = isset($sort_order) ? strtoupper($sort_order) : 'ASC';
+        $sort_by = self::mapTableColumns($sort_by, "t1", "t2");
 
         // Search
         $search_text = self::filterNull($search_text);
 
-        // Role
-        $role = self::filterNull($role);
-
-        global $wpdb;
+        $sql_on = "
+            t1.ID = t2.user_id
+            AND t2.meta_value LIKE '%$search_text%'
+        ";
+        $sql_where = "
+            t1.user_login LIKE '%$search_text%'
+            OR t1.user_email LIKE '%$search_text%'
+            OR t1.user_nicename LIKE '%$search_text%'
+            OR t1.display_name LIKE '%$search_text%'
+            OR t2.meta_value LIKE '%$search_text%'
+        ";
 
         $sql = "
-            SELECT * FROM {$wpdb->users}
-            INNER JOIN {$wpdb->usermeta} ON ({$wpdb->users}.ID = {$wpdb->usermeta}.user_id)
-            WHERE {$wpdb->users}.ID LIKE \"%$search_text%\" OR {$wpdb->users}.user_login LIKE \"%$search_text%\"
-            OR {$wpdb->users}.user_email LIKE \"%$search_text%\" OR {$wpdb->users}.user_nicename LIKE \"%$search_text%\"
-            OR {$wpdb->users}.display_name LIKE \"%$search_text%\" OR {$wpdb->usermeta}.meta_value LIKE \"%$search_text%\"
-            GROUP BY {$wpdb->users}.ID
-            ORDER BY {$wpdb->users}.ID $sort_order
+            SELECT * FROM {$wpdb->users} as t1
+            INNER JOIN {$wpdb->usermeta} as t2
+            ON ($sql_on)
+            WHERE
+                $sql_where
+            GROUP BY t2.user_id
+            ORDER BY $sort_by $sort_order
             LIMIT $offset, $page_size
         ";
 
@@ -91,7 +99,7 @@ class RusRestApiGetAllUsers {
             $record['email']                  = self::filterNull($user->user_email);
 
             $UserData = get_user_meta( $user->ID );  
-            $record['roles']             = self::filterNull($UserData['wp_capabilities'][0]);
+            $record['roles']             = self::filterNullFirst($UserData['wp_capabilities']);
             
             // https://regex101.com/library/3q3RYF - smit
             // a:1:{s:11:"contributor";b:1;} ==to==> ["contributor"]
@@ -104,15 +112,15 @@ class RusRestApiGetAllUsers {
                 }
             }
 
-            $record['first_name']             = self::filterNull($UserData['first_name'][0]);
-            $record['last_name']              = self::filterNull($UserData['last_name'][0]);
-            $record['billing_company']        = self::filterNull($UserData['billing_company'][0]);
-            $record['billing_address_1']      = self::filterNull($UserData['billing_address_1'][0]);
-            $record['billing_city']           = self::filterNull($UserData['billing_city'][0]);
-            $record['billing_state']          = self::filterNull($UserData['billing_state'][0]);
-            $record['billing_postcode']       = self::filterNull($UserData['billing_postcode'][0]);
-            $record['billing_country']        = self::filterNull($UserData['billing_country'][0]);
-            $record['billing_phone']          = self::filterNull($UserData['billing_phone'][0]);
+            $record['first_name']             = self::filterNullFirst($UserData['first_name']);
+            $record['last_name']              = self::filterNullFirst($UserData['last_name']);
+            $record['billing_company']        = self::filterNullFirst($UserData['billing_company']);
+            $record['billing_address_1']      = self::filterNullFirst($UserData['billing_address_1']);
+            $record['billing_city']           = self::filterNullFirst($UserData['billing_city']);
+            $record['billing_state']          = self::filterNullFirst($UserData['billing_state']);
+            $record['billing_postcode']       = self::filterNullFirst($UserData['billing_postcode']);
+            $record['billing_country']        = self::filterNullFirst($UserData['billing_country']);
+            $record['billing_phone']          = self::filterNullFirst($UserData['billing_phone']);
             $DBRecord['users'][$i] = $record;
             $i++; 
         }
@@ -123,7 +131,7 @@ class RusRestApiGetAllUsers {
      * Filter null values
      *
      * @param mixed $val
-     * @return json $data[]
+     * @return string ""
      */
     protected function filterNull($val){
         if($val===NULL) {
@@ -131,5 +139,57 @@ class RusRestApiGetAllUsers {
         } else {
             return $val;
         }
+    }
+
+    /**
+     * Filter null values
+     *
+     * @param mixed $val
+     * @return string or NULL
+     */
+    protected function filterIsSetNull($val){
+        if(isset($val)) {
+            return $val;
+        } else {
+            return NULL;
+        }
+    }
+
+    /**
+     * Filter null values and return first value
+     * 
+     * @param mixed $val
+     * @return string or ""
+     */
+    protected function filterNullFirst($val){
+        if(!isset($val) || $val===NULL || !isset($val[0]) || $val[0]===NULL) {
+            return "";
+        } else {
+            return $val[0];
+        }
+    }
+
+    /**
+     * Parse sort by text
+     *
+     * @param string $column_name
+     * @param string $users_table
+     * @param string $usermeta_table
+     * @return string
+     */
+    protected function mapTableColumns($column_name, $users_table, $usermeta_table) {
+        $sort = strtolower(self::filterNull($column_name));
+
+        $sort_map = [
+            'username' => "$users_table.user_login",
+            'email' => "$users_table.user_email",
+            'first_name' => "$users_table.user_nicename",
+            'last_name' => "$users_table.user_login",
+        ];
+
+        if (isset($sort_map[$sort])) {
+            return $sort_map[$sort];
+        }
+        return "$usermeta_table.meta_value";
     }
 }
