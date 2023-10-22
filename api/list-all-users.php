@@ -57,17 +57,17 @@ class RusRestApiGetAllUsers {
 
         // Search
         $search_text = self::filterNull($search_text);
+        $role = self::filterNull($role);
 
         $sql_on = "
             t1.ID = t2.user_id
-            AND t2.meta_value LIKE '%$search_text%'
+            AND (t2.meta_value LIKE '%$role%' AND t2.meta_key = 'wp_capabilities')
         ";
         $sql_where = "
             t1.user_login LIKE '%$search_text%'
             OR t1.user_email LIKE '%$search_text%'
             OR t1.user_nicename LIKE '%$search_text%'
             OR t1.display_name LIKE '%$search_text%'
-            OR t2.meta_value LIKE '%$search_text%'
         ";
 
         $sql = "
