@@ -17,9 +17,9 @@ class RusDeactivation {
      * @param null
      * @return null
      */
-    public function __construct(){
+    public function __construct($file){
         RusHelper::checkSecurity();
-        register_deactivation_hook(RUS_FILE_PATH, [$this, 'deactivate']);
+        register_deactivation_hook($file, [$this, 'deactivate']);
     }
 
     /**
