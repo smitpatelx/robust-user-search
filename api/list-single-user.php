@@ -63,6 +63,4 @@ class RusRestApiGetUser {
 
         return new \WP_REST_Response($DBRecord, 200);
     }
-
-    
 }

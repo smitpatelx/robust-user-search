@@ -63,6 +63,5 @@ class RusRestApiDeleteUser {
             // User updated successfully
             return new \WP_REST_Response(['status_code' => 200, 'message' => "User id: ".$id."deleted successfully."], 200);
         }
-
     }
 }

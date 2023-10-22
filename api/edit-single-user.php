@@ -85,6 +85,5 @@ class RusRestApiPutEditUser {
             // User updated successfully
             return new \WP_REST_Response(['status_code' => 200, 'message' => "User data updated successfully"], 200);
         }
-
     }
 }
