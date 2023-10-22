@@ -20,10 +20,9 @@ class Constants {
 
         define('RUS_MINIMUM_WP_REQUIRED_VERSION', 5.2);
         define('RUS_DIRECTORY', __DIR__);
-        define('RUS_FILE_PATH', __FILE__);
         define('RUS_WP_CURRENT_VERSION', $wp_version);
         define('RUS_CAPABILITY', 'robust_user_search');
-        define('RUS_MENU_ICON_URL', plugins_url('assets/robust_teal.svg', __FILE__));
+        define('RUS_MENU_ICON_URL', plugins_url('/assets/robust_teal.svg', __FILE__));
         define('RUS_FAVICON_URL', plugins_url('/dist/favicon.ico', __FILE__));
 
         define('RUS_DIST_CSS_APP', plugins_url('/dist/assets/index.css', __FILE__));
