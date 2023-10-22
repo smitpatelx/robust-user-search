@@ -39,11 +39,11 @@ class Rus {
         RusHelper::checkSecurity();
         
         new Constants();
-        new RusUser();
 
         $this->checkWpVersion();
-        $this->registerHooks();
         $this->registerAllPages();
+        $this->registerHooks();
+        $this->registerAllApis();
     }
 
     /**
@@ -77,9 +77,9 @@ class Rus {
         require_once(__DIR__.'/includes/activation.php');
         require_once(__DIR__.'/includes/deactivate.php');
 
-        require_once(__DIR__.'/controller/user.php');
-        require_once(__DIR__.'/controller/index.php');
-        require_once(__DIR__.'/controller/settings.php');
+        include_once(__DIR__.'/controller/user.php');
+        include_once(__DIR__.'/controller/index.php');
+        include_once(__DIR__.'/controller/settings.php');
     }
 
     /**
@@ -89,8 +89,8 @@ class Rus {
      * @return none
      */
     protected function registerHooks(){
-        new RusActivation();
-        new RusDeactivation();
+        new RusActivation(__FILE__);
+        new RusDeactivation(__FILE__);
     }
 
     /**
@@ -100,8 +100,19 @@ class Rus {
      * @return none
      */
     protected function registerAllPages(){
-        add_action('admin_menu', ['Rus\Controller\RusIndex', 'instance'], 99);
-        add_action('admin_menu', ['Rus\Controller\RusSetting', 'instance'], 99);
+        add_action('admin_menu', ['Rus\Controller\RusIndex', 'init'], 99);
+        add_action('admin_menu', ['Rus\Controller\RusSettings', 'init'], 99);
+    }
+
+    /**
+     * Add action to register pages into admin menu
+     * 
+     * @param none
+     * @return none
+     */
+    protected function registerAllApis(){
+        $api_routes = new RusUser();
+        $api_routes->init();
     }
 }
 
