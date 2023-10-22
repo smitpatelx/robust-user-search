@@ -83,9 +83,20 @@ class RusRestApiGetAllUsers {
 
         $users = $wpdb->get_results($sql);
 
-        $DBRecord['total'] = count($users);
-        $DBRecord['page'] = $page;
-        $DBRecord['page_size'] = $page_size;
+        // Get total records
+        $sql_for_total_count = "
+            SELECT COUNT(*) FROM {$wpdb->users} as t1
+            INNER JOIN {$wpdb->usermeta} as t2
+            ON ($sql_on)
+            WHERE
+                $sql_where
+            GROUP BY t2.user_id
+        ";
+        $total_count_result = count($wpdb->get_results($sql_for_total_count));
+
+        $DBRecord['total'] = (int) $total_count_result;
+        $DBRecord['page'] = (int) $page;
+        $DBRecord['page_size'] = (int) $page_size;
         $DBRecord['users'] = array();
         $i=0;
 
@@ -99,12 +110,11 @@ class RusRestApiGetAllUsers {
             $record['email']                  = self::filterNull($user->user_email);
 
             $UserData = get_user_meta( $user->ID );  
-            $record['roles']             = self::filterNullFirst($UserData['wp_capabilities']);
             
             // https://regex101.com/library/3q3RYF - smit
             // a:1:{s:11:"contributor";b:1;} ==to==> ["contributor"]
             $re = '/"([^"]+)"/';
-            preg_match_all($re, $record['roles'], $matches, PREG_SET_ORDER, 0);
+            preg_match_all($re, $user->meta_value, $matches, PREG_SET_ORDER, 0);
             if ($matches) {
                 $record['roles'] = [];
                 foreach ($matches as $key => $value) {
