@@ -11,8 +11,6 @@ use Rus\Helper\RusHelper;
  * @author     Smit Patel <smitpatel.dev@gmail.com>
  */
 class RusIndex {
-    private static $instance;
-
     /**
      * Security Check
      *
@@ -29,24 +27,9 @@ class RusIndex {
      * @param null
      * @return null
      */
-    public static function instance(){
+    public static function init(){
         $instance = new self;
         $instance->register();
-    }
-
-    /**
-     * Add specific styling to display icon
-     *
-     * @param null
-     * @return null
-     */
-    public static function customFavicon() {
-        echo "<style>
-            .toplevel_page_rus #adminmenu .wp-menu-image img{
-                margin-top: 0px !important;
-                padding-top: 5px !important;
-            }
-            </style>"; 
     }
 
     /**
@@ -55,14 +38,14 @@ class RusIndex {
      * @param null
      * @return null
      */
-    public function register() { 
+    private function register() { 
         // add_menu_page( string $page_title, string $menu_title, string $capability, string $menu_slug, callable $function = '', string $icon_url = '', int $position = null ), 
         add_menu_page(
             'Robust user search',
             'Robust search',
             RUS_CAPABILITY,
             'rus',
-            array( $this, 'indexOutput'),
+            [$this, 'indexOutput'],
             RUS_MENU_ICON_URL,
             25,
         );

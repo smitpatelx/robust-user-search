@@ -24,9 +24,12 @@ class RusUser {
      */
     public function __construct(){
         RusHelper::checkSecurity();
+    }
 
-        self::includingFile();
-        self::registerAllApi();
+    public function init() {
+        $instance = new self;
+        $instance->includingFile();
+        $instance->registerAllApi();
     }
 
     /**

@@ -9,9 +9,7 @@ use Rus\Helper\RusHelper;
  * @subpackage Controller
  * @author     Smit Patel <smitpatel.dev@gmail.com>
  */
-class RusSetting {
-    private static $instance;
-
+class RusSettings {
     /**
      * Security Check
      *
@@ -28,7 +26,7 @@ class RusSetting {
      * @param null
      * @return null
      */
-    public static function instance(){
+    public static function init(){
         $instance = new self;
         $instance->register();
     }
@@ -39,9 +37,9 @@ class RusSetting {
      * @param null
      * @return null
      */
-    public function register() {
+    private function register() {
         //add_submenu_page( string $parent_slug, string $page_title, string $menu_title, string $capability, string $menu_slug, callable $function = '', int $position = null )
-        add_submenu_page( 'rus', 'Settings', 'Settings', RUS_CAPABILITY, 'rus-settings', array( $this, 'settingsOutput') );
+        add_submenu_page('rus', 'Settings', 'Settings', RUS_CAPABILITY, 'rus-settings', [$this, 'settingsOutput']);
     }
 
     /**
@@ -51,7 +49,7 @@ class RusSetting {
      * @return null
      */
     public function settingsOutput(){
-        $db_saved_roles = get_option('rus_allowed_roles',[]);
+        // $db_saved_roles = get_option('rus_allowed_roles',[]);
         $current_user_role = wp_get_current_user()->roles[0];
 
         global $wp_roles;
