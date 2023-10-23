@@ -3,7 +3,7 @@ Contributors: smitpatelx
 Donate link: https://apps.smitpatelx.com/donate
 Tags: Ajax, Axios, Robust Search, User Management, Edit User, Update, smitpatelx, Vue, WooCommerce, Axios
 Requires at least: 5.2
-Tested up to: 6.2.1
+Tested up to: 6.3.2
 Stable tag: 1.1.0
 License: GPLv3
 
