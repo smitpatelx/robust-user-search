@@ -4,7 +4,7 @@ Donate link: https://apps.smitpatelx.com/donate
 Tags: Ajax, Axios, Robust Search, User Management, Edit User, Update, smitpatelx, Vue, WooCommerce, Axios
 Requires at least: 5.2
 Tested up to: 6.2.1
-Stable tag: 1.0.6
+Stable tag: 1.1.0
 License: GPLv3
 
 A comprehensive, user-friendly, live user search & edit plugin for your site.
@@ -110,6 +110,25 @@ https://smitpatelx.com/apps/robust-user-search
 None
 
 == Changelog ==
+
+= 1.1.0 =
+- Major next release.
+- Rewrite using Typescript & Vue 3.3.
+- UI updates.
+- Validation update.
+- Upgraded to vite for improving developer experience.
+- Keyboard shortcuts added.
+- More keyboard accessibility.
+- Zod validation added.
+- HTML native dialog component for full screen experience.
+- Support for tablet screen size.
+- Improved color scheme.
+- Tailwind upgraded to 3.3.2.
+- Support for country code.
+- Sticky headers for accounts table.
+- Sorting by header button.
+- Hide columns option.
+- Smooth animations.
 
 = 1.0.6 =
 - Fixed overlay height.

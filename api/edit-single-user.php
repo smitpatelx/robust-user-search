@@ -2,6 +2,8 @@
 namespace Rus\Api;
 
 use Rus\Helper\RusHelper;
+use Rus\Helper\RusValidation;
+
 /**
  * RestApi Class to edit user data
  * 
@@ -20,7 +22,7 @@ class RusRestApiPutEditUser {
     public function __construct(){
         RusHelper::checkSecurity();
 
-        register_rest_route( 'rsu/v1', '/user/(?P<id>\d+)', array(
+        register_rest_route( 'rus/v1', '/user/(?P<id>\d+)', array(
             'methods' => 'PUT',
             'callback' => [$this,'processRequest'],
             'permission_callback' => function($request){	  
@@ -37,44 +39,43 @@ class RusRestApiPutEditUser {
      * @param string $email
      * @param string $company
      * @param string $phone
+     * @param string $billing_country
      * @return json $data[]
      */
     public function processRequest(\WP_REST_Request $request){
-
-        $check_nonce = RusHelper::checkNonce($request);
-        if(!$check_nonce){
-            return new \WP_REST_Response(['status_code' => 400, 'message' => "You dont have permission to view all roles"], 400);
-        }
+        RusHelper::checkNonceApi($request);
         
         extract($request->get_params());
 
         $data = [];
         
         // Validate Request
-        if ( !self::validateNames(sanitize_text_field($first_name)) ){
+        if ( !RusValidation::validateNames(sanitize_text_field($first_name)) ){
             return new \WP_REST_Response(['status_code' => 400, 'message' => "Invalid first name"], 400);
-        } elseif ( !self::validateNames(sanitize_text_field($last_name))){
+        } elseif ( !RusValidation::validateNames(sanitize_text_field($last_name))){
             return new \WP_REST_Response(['status_code' => 400, 'message' => "Invalid last name"], 400);
-        } elseif ( !filter_var(sanitize_email($email), FILTER_VALIDATE_EMAIL) ){
+        } elseif ( !RusValidation::validateEmail(sanitize_email($email)) ){
             return new \WP_REST_Response(['status_code' => 400, 'message' => "Invalid email address"], 400);
-        } elseif ( !self::validatePhone(sanitize_text_field($phone))){
+        } elseif ( !RusValidation::validatePhone(sanitize_text_field($phone))){
             return new \WP_REST_Response(['status_code' => 400, 'message' => "Invalid phone number"], 400);
+        }  elseif ( !RusValidation::validateCountryCode(sanitize_text_field($billing_country))){
+            return new \WP_REST_Response(['status_code' => 400, 'message' => "Invalid country code"], 400);
         }
 
-        $data['ID']=$id;
-        $data['first_name']=sanitize_text_field($first_name);
-        $data['last_name']=sanitize_text_field($last_name);
-        $data['user_email']=sanitize_email($email);
+        $data['ID']                 = $id;
+        $data['first_name']         = sanitize_text_field($first_name);
+        $data['last_name']          = sanitize_text_field($last_name);
+        $data['user_email']         = sanitize_email($email);
 
-
-        $user_data = wp_update_user($data);
+        $user_data                  = wp_update_user($data);
         
-        $data = [];
-        $data['billing_company']=sanitize_text_field($company);
-        $data['billing_phone']=sanitize_text_field($phone);
+        $data                       = [];
+        $data['billing_company']    = sanitize_text_field($company);
+        $data['billing_country']    = sanitize_text_field($billing_country);
+        $data['billing_phone']      = sanitize_text_field($phone);
 
         foreach($data as $key => $meta){
-            $user_meta = update_user_meta($id, $key, $meta);
+            update_user_meta($id, $key, $meta);
         }
 
         if ( is_wp_error( $user_data )) {
@@ -84,37 +85,5 @@ class RusRestApiPutEditUser {
             // User updated successfully
             return new \WP_REST_Response(['status_code' => 200, 'message' => "User data updated successfully"], 200);
         }
-
     }
-
-    /**
-     * Validate names
-     *
-     * @param string $val
-     * @return boolean
-     */
-    private function validateNames($val){
-        if (empty(trim($val))) { return true; }
-        if(preg_match ("/^[a-zA-Z\s]+$/",trim($val)) && strlen(trim($val)) <= 25) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    /**
-     * Validate phone number
-     *
-     * @param string $val
-     * @return boolean
-     */
-    private function validatePhone($val){
-        if (empty(trim($val))) { return true; }
-        if(preg_match("/^[0-9]{10}$/", trim($val)) && strlen(trim($val)) == 10){
-            return true;
-        } else {
-            return false;
-        }
-    }
-
 }

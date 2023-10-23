@@ -9,7 +9,7 @@ use Rus\Helper\RusHelper;
  * @subpackage api
  * @author     Smit Patel <smitpatel.dev@gmail.com>
  */
-class RusRestApiGetSingleUser {
+class RusRestApiGetUser {
     
     /**
      * Security Check & Registering rest route
@@ -20,7 +20,7 @@ class RusRestApiGetSingleUser {
     public function __construct(){
         RusHelper::checkSecurity();
 
-        register_rest_route( 'rsu/v1', '/user/(?P<id>\d+)', array(
+        register_rest_route( 'rus/v1', '/user/(?P<id>\d+)', array(
             'methods' => 'GET',
             'callback' => [$this,'processRequest'],
             'permission_callback' => function($request){	  
@@ -36,11 +36,7 @@ class RusRestApiGetSingleUser {
      * @return json $data[]
      */
     function processRequest(\WP_REST_Request $request){
-
-        $check_nonce = RusHelper::checkNonce($request);
-        if(!$check_nonce){
-            return new \WP_REST_Response(['status_code' => 400, 'message' => "You dont have permission to view all roles"], 400);
-        }
+        RusHelper::checkNonceApi($request);
         
         extract($request->get_params());
         $DBRecord = array();
@@ -67,6 +63,4 @@ class RusRestApiGetSingleUser {
 
         return new \WP_REST_Response($DBRecord, 200);
     }
-
-    
 }

@@ -19,7 +19,7 @@ class RusActivation {
      */
     public function __construct($file){
         RusHelper::checkSecurity();
-        register_activation_hook( $file, [$this, 'activate']);
+        register_activation_hook($file, [$this, 'activate']);
     }
 
     /**

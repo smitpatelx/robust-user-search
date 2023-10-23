@@ -6,7 +6,7 @@
  * Text Domain:         robust-user-search
  * Author:              Smit Patel
  * Author URI:          https://smitpatelx.com
- * Version:             1.0.6
+ * Version:             1.1.0
  * Requires at least:   5.2
  * Requires PHP:        7.1
  * License:             gpl-v2-only
@@ -18,11 +18,8 @@ use Rus\Helper\RusHelper;
 
 use Rus\Includes\RusActivation;
 use Rus\Includes\RusDeactivation;
+use Rus\Controller\RusUser;
 
-use Rus\Api\RusRestApiGetAllUsers;
-use Rus\Api\RusRestApiPutEditUser;
-use Rus\Api\RusRestApiGetSingleUser;
-use Rus\Api\RusRestApiGetRoles;
 /**
  * Robust User Search Main Class
  * 
@@ -39,14 +36,14 @@ class Rus {
      */
     public function __construct(){
         $this->includingFile();
-        
         RusHelper::checkSecurity();
+        
         new Constants();
 
         $this->checkWpVersion();
-        $this->registerHooks();
         $this->registerAllPages();
-        $this->registerRestApi();
+        $this->registerHooks();
+        $this->registerAllApis();
     }
 
     /**
@@ -76,15 +73,13 @@ class Rus {
         require_once(__DIR__."/constants.php");
 
         require_once(__DIR__.'/helper/Helper.php');
+        require_once(__DIR__.'/helper/Validation.php');
         require_once(__DIR__.'/includes/activation.php');
         require_once(__DIR__.'/includes/deactivate.php');
-        require_once(__DIR__.'/includes/index-controller.php');
-        require_once(__DIR__.'/includes/settings-controller.php');
 
-        include_once(__DIR__.'/api/list-all-users.php');
-        include_once(__DIR__.'/api/list-single-user.php');
-        include_once(__DIR__.'/api/list-all-roles.php');
-        include_once(__DIR__.'/api/edit-single-user.php');
+        include_once(__DIR__.'/controller/user.php');
+        include_once(__DIR__.'/controller/index.php');
+        include_once(__DIR__.'/controller/settings.php');
     }
 
     /**
@@ -105,29 +100,20 @@ class Rus {
      * @return none
      */
     protected function registerAllPages(){
-        add_action('admin_head', ['Rus\Includes\RusIndexController', 'customFavicon']);
-        add_action('admin_menu', ['Rus\Includes\RusIndexController', 'instance'], 99);
-        add_action('admin_menu', ['Rus\Includes\RusSettingsController', 'instance'], 99);
+        add_action('admin_menu', ['Rus\Controller\RusIndex', 'init'], 99);
+        add_action('admin_menu', ['Rus\Controller\RusSettings', 'init'], 99);
     }
 
     /**
-     * Calls to register rest APIs
+     * Add action to register pages into admin menu
      * 
      * @param none
      * @return none
      */
-    protected function registerRestApi(){
-        add_action( 'rest_api_init', function () {
-            new RusRestApiGetAllUsers();
-
-            new RusRestApiPutEditUser();
-
-            new RusRestApiGetSingleUser();
-            
-            new RusRestApiGetRoles();
-        });
+    protected function registerAllApis(){
+        $api_routes = new RusUser();
+        $api_routes->init();
     }
-
 }
 
 new Rus();

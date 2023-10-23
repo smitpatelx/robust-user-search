@@ -19,7 +19,7 @@ class RusDeactivation {
      */
     public function __construct($file){
         RusHelper::checkSecurity();
-        register_deactivation_hook( $file, [$this, 'deactivate']);
+        register_deactivation_hook($file, [$this, 'deactivate']);
     }
 
     /**
