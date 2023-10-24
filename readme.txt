@@ -5,7 +5,7 @@ Tags: Ajax, Axios, Robust Search, User Management, Edit User, Update, smitpatelx
 Requires at least: 5.2
 Tested up to: 6.3.2
 Stable tag: 1.1.0
-License: GPLv3
+License: GPLv2
 
 A comprehensive, user-friendly, live user search & edit plugin for your site.
 
