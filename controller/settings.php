@@ -39,7 +39,7 @@ class RusSettings {
      */
     private function register() {
         //add_submenu_page( string $parent_slug, string $page_title, string $menu_title, string $capability, string $menu_slug, callable $function = '', int $position = null )
-        add_submenu_page('rus', 'Settings', 'Settings', RUS_CAPABILITY, 'rus-settings', [$this, 'settingsOutput']);
+        add_submenu_page('rus', 'Settings', 'Settings', RUS_ADMIN_CAPABILITY, 'rus-settings', [$this, 'settingsOutput']);
     }
 
     /**
@@ -116,6 +116,11 @@ class RusSettings {
                 <div class="rus-settings-header">
                     <a href="#roles">#</a>
                     <span>Allowed Roles</span>
+                </div>
+                <div class="w-full text-teal-700 text-sm">
+                    <span>
+                        Only account with &quot;admin&quot; role can access settings page, even if you allow other roles to access the main page.
+                    </span>
                 </div>
                 <div class="rus-settings-checkboxes">
                     <?php
