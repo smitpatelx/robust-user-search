@@ -59,24 +59,42 @@ class RusRestApiGetAllUsers {
         $search_text = self::filterNull($search_text);
         $role = self::filterNull($role);
 
-        $sql_on = "
-            t1.ID = t2.user_id
-            AND (t2.meta_value LIKE '%$role%' AND t2.meta_key = 'wp_capabilities')
-        ";
+        if (trim($role) == '') {
+            $sql_on = "
+                t1.ID = t2.user_id
+            ";
+            $sql_on_2 = "
+                t1.ID = t3.user_id
+                AND t3.meta_value LIKE '%$search_text%'
+            ";
+        } else {
+            $sql_on = "
+                t1.ID = t2.user_id
+                AND t2.meta_value LIKE '%$search_text%'
+            ";
+            $sql_on_2 = "
+                t1.ID = t3.user_id
+                AND (t3.meta_key = 'wp_capabilities'
+                AND t3.meta_value LIKE '%$role%')
+            ";
+        }
         $sql_where = "
             t1.user_login LIKE '%$search_text%'
             OR t1.user_email LIKE '%$search_text%'
             OR t1.user_nicename LIKE '%$search_text%'
             OR t1.display_name LIKE '%$search_text%'
+            OR t2.meta_value LIKE '%$search_text%'
         ";
 
         $sql = "
             SELECT * FROM {$wpdb->users} as t1
             INNER JOIN {$wpdb->usermeta} as t2
             ON ($sql_on)
+            INNER JOIN {$wpdb->usermeta} as t3
+            ON ($sql_on_2)
             WHERE
                 $sql_where
-            GROUP BY t2.user_id
+            GROUP BY t2.user_id, t3.user_id, t1.user_login
             ORDER BY $sort_by $sort_order
             LIMIT $offset, $page_size
         ";
@@ -88,9 +106,11 @@ class RusRestApiGetAllUsers {
             SELECT COUNT(*) FROM {$wpdb->users} as t1
             INNER JOIN {$wpdb->usermeta} as t2
             ON ($sql_on)
+            INNER JOIN {$wpdb->usermeta} as t3
+            ON ($sql_on_2)
             WHERE
                 $sql_where
-            GROUP BY t2.user_id
+            GROUP BY t2.user_id, t3.user_id, t1.user_login
         ";
         $total_count_result = count($wpdb->get_results($sql_for_total_count));
 
@@ -98,43 +118,73 @@ class RusRestApiGetAllUsers {
         $DBRecord['page'] = (int) $page;
         $DBRecord['page_size'] = (int) $page_size;
         $DBRecord['users'] = array();
-        $i=0;
 
-        foreach ( $users as $user )
+        // var_dump($users);
+        foreach ($users as $user)
         {
             $record = array();
-            $record['roles']                  = self::filterNull($user->roles);
-            $record['username']               = self::filterNull($user->user_login);
-            $record['id']                     = self::filterNull($user->ID);
-            $record['user_registered']        = self::filterNull($user->user_registered);
-            $record['email']                  = self::filterNull($user->user_email);
-
-            $UserData = get_user_meta( $user->ID );  
+            $record['username'] = self::filterNull($user->user_login);
+            $record['id'] = self::filterNull($user->ID);
+            $record['user_registered'] = self::filterNull($user->user_registered);
+            $record['email'] = self::filterNull($user->user_email);
             
-            // https://regex101.com/library/3q3RYF - smit
-            // a:1:{s:11:"contributor";b:1;} ==to==> ["contributor"]
-            $re = '/"([^"]+)"/';
-            preg_match_all($re, $user->meta_value, $matches, PREG_SET_ORDER, 0);
-            if ($matches) {
-                $record['roles'] = [];
-                foreach ($matches as $key => $value) {
-                    array_push($record['roles'], $value[1]);
-                }
-            }
-
-            $record['first_name']             = self::filterNullFirst($UserData['first_name']);
-            $record['last_name']              = self::filterNullFirst($UserData['last_name']);
-            $record['billing_company']        = self::filterNullFirst($UserData['billing_company']);
-            $record['billing_address_1']      = self::filterNullFirst($UserData['billing_address_1']);
-            $record['billing_city']           = self::filterNullFirst($UserData['billing_city']);
-            $record['billing_state']          = self::filterNullFirst($UserData['billing_state']);
-            $record['billing_postcode']       = self::filterNullFirst($UserData['billing_postcode']);
-            $record['billing_country']        = self::filterNullFirst($UserData['billing_country']);
-            $record['billing_phone']          = self::filterNullFirst($UserData['billing_phone']);
-            $DBRecord['users'][$i] = $record;
-            $i++; 
+            $user_data = get_user_meta($user->ID);
+            
+            $record['roles'] = self::extract_roles_from_meta_value($user_data['wp_capabilities']);
+            $record['first_name'] = self::filterNullFirst($user_data['first_name']);
+            $record['last_name'] = self::filterNullFirst($user_data['last_name']);
+            $record['billing_company'] = self::filterNullFirst($user_data['billing_company']);
+            $record['billing_address_1'] = self::filterNullFirst($user_data['billing_address_1']);
+            $record['billing_city'] = self::filterNullFirst($user_data['billing_city']);
+            $record['billing_state'] = self::filterNullFirst($user_data['billing_state']);
+            $record['billing_postcode'] = self::filterNullFirst($user_data['billing_postcode']);
+            $record['billing_country'] = self::filterNullFirst($user_data['billing_country']);
+            $record['billing_phone'] = self::filterNullFirst($user_data['billing_phone']);
+            array_push($DBRecord['users'], $record);
         }
         return new \WP_REST_Response($DBRecord, 200);
+    }
+
+    /**
+     * Check if meta_value is array or not and extract roles from it
+     *
+     * @param string $meta_value
+     * @return string[] $roles
+     */
+    protected function extract_roles_from_meta_value($meta_value) {
+        $roles = [];
+
+        if (!is_array($meta_value)) {
+            return self::match_role($roles);
+        } else {
+            foreach ($meta_value as $value) {
+                $role = self::match_role($value);
+                if (!empty($role)) {
+                    array_push($roles, $role);
+                }
+            }
+        }
+
+        return $roles;
+    }
+
+    /**
+     * Extract role from meta_value
+     *
+     * @param string $meta_value
+     * @return string ""
+     */
+    protected function match_role($meta_value) {
+        // https://regex101.com/library/3q3RYF - smit
+        // a:1:{s:11:"contributor";b:1;} ==to==> ["contributor"]
+        $re = '/"([^"]+)"/';
+        $matches = NULL;
+        preg_match_all($re, $meta_value, $matches, PREG_SET_ORDER, 0);
+        if (!empty($matches) && is_array($matches) && !is_null($matches)) {
+            foreach ($matches as $value) {
+                return $value[1];
+            }
+        }
     }
 
     /**
