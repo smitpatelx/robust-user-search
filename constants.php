@@ -22,6 +22,7 @@ class Constants {
         define('RUS_DIRECTORY', __DIR__);
         define('RUS_WP_CURRENT_VERSION', $wp_version);
         define('RUS_CAPABILITY', 'robust_user_search');
+        define('RUS_ADMIN_CAPABILITY', 'manage_options');
         define('RUS_MENU_ICON_URL', plugins_url('/assets/robust_teal.svg', __FILE__));
         define('RUS_FAVICON_URL', plugins_url('/dist/favicon.ico', __FILE__));
 
