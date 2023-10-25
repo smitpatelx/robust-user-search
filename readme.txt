@@ -4,7 +4,7 @@ Donate link: https://apps.smitpatelx.com/donate
 Tags: Ajax, Axios, Robust Search, User Management, Edit User, Update, smitpatelx, Vue, WooCommerce, Axios
 Requires at least: 5.2
 Tested up to: 6.3.2
-Stable tag: 1.1.0
+Stable tag: 1.1.1
 License: GPLv2
 
 A comprehensive, user-friendly, live user search & edit plugin for your site.
@@ -110,6 +110,10 @@ https://smitpatelx.com/apps/robust-user-search
 None
 
 == Changelog ==
+
+= 1.1.1 =
+- Fixed SQL script for searching by first name, last name and business name.
+- Fixed empty first and last name field when its empty.
 
 = 1.1.0 =
 - Major next release.
