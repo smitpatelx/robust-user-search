@@ -6,7 +6,7 @@
  * Text Domain:         robust-user-search
  * Author:              Smit Patel
  * Author URI:          https://smitpatelx.com
- * Version:             1.1.0
+ * Version:             1.1.1
  * Requires at least:   5.2
  * Requires PHP:        7.1
  * License:             gpl-v2-only
@@ -72,8 +72,8 @@ class Rus {
     protected function includingFile(){
         require_once(__DIR__."/constants.php");
 
-        require_once(__DIR__.'/helper/Helper.php');
-        require_once(__DIR__.'/helper/Validation.php');
+        require_once(__DIR__.'/helper/helper.php');
+        require_once(__DIR__.'/helper/validation.php');
         require_once(__DIR__.'/includes/activation.php');
         require_once(__DIR__.'/includes/deactivate.php');
 

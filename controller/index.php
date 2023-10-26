@@ -89,7 +89,7 @@ class RusIndex {
         echo wp_kses('
         <div class="flex flex-wrap" style="width:100% !important;">
             <div class="w-full flex flex-wrap mt-2">
-                <div id="vueApp" class="w-full"/>
+                <div id="rus-vue-app" class="w-full"/>
             </div>
         </div>
         <style>
